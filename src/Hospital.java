@@ -2,7 +2,7 @@
 public class Hospital
 {
 
-    DataBase db;
+    private DataBase db;
 
     private DataBase getDatabaseSupportInstance()
     {
@@ -11,11 +11,19 @@ public class Hospital
             return ds;
     }
 
-    boolean givePrescription(int app_id, String pre) throws ObjectNotFoundException
+
+    public boolean givePrescription(int app_id, String pre) throws ObjectNotFoundException
     {
-        return getDatabaseSupportInstance().getAppointment(app_id).updatePrescription(pre);
+        return getDatabaseSupportInstance().getAppointment(app_id).setPrescription(pre);
 
     }
+
+    public LinkList<Appointment> checkSchedule(string doctor_name) throws ObjectNotFoundException
+    {
+      return getDatabaseSupportInstance().checkSchedule(doctor_name);
+
+    }
+
 
 
 

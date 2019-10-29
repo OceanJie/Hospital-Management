@@ -42,4 +42,17 @@ public class DataBase {
 			return appointments.get(new Integer(id));
 		}
 
+		LinkedList<Appointment> checkSchedule(string doctor_name);
+		{
+			LinkedList<Appointment> res = new LinkedList();
+			Iterator it = appointments.entrySet().iterator();
+			 while (it.hasNext()) {
+				 Appointment token = it.next();
+				 if(token.getDoctor().equals(doctor_name))
+				 res.add(token);
+			 }
+			 return res;
+		}
+
+
 }
