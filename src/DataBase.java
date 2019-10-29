@@ -33,9 +33,10 @@ public class DataBase {
 			return doctors.get(doctor_name);
 		}
 
-		public void addAppointment(Appointment app)
+		public boolean addAppointment(Appointment app)
 		{
 			appointments.put(app.getID(), app);
+			return true;
 		}
 		public Appointment getAppointment(int id)
 		{
