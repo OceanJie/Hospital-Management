@@ -40,5 +40,4 @@ public class Appointment {
   {
     doctor_name = name;
   }
-
 }
