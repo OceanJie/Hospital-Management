@@ -15,6 +15,14 @@ public class HospitalController
 
   public LinkList<Appointment> checkSchedule(string doctor_name) throws ObjectNotFoundException
   {
-    return checkSchedule(doctor_name);
+    return h.checkSchedule(doctor_name);
+  }
+
+  public boolean makeAppointment(String day, int hours, int minutes) throws ObjectNotFoundException {
+    return h.makeAppointment(day, hours, minutes);
+  }
+
+  public String getPrescription() throws ObjectNotFoundException {
+    return h.getPrescription();
   }
 }
