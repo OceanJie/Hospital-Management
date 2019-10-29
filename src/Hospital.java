@@ -6,9 +6,9 @@ public class Hospital
 
     private DataBase getDatabaseSupportInstance()
     {
-        if(ds==null)
-                ds=new Database();
-            return ds;
+        if(db==null)
+                db=new Database();
+            return db;
     }
 
 
