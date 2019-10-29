@@ -40,4 +40,9 @@ public class Appointment {
   {
     doctor_name = name;
   }
+
+  public int getID()
+  {
+    return app_id;
+  }
 }
