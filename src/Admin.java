@@ -43,7 +43,7 @@ public class Admin {
 	 */
 	public boolean addPatient(String patient_name) {
 		Patient p = new Patient (patient_name);
-		
+
 		if(listofPatient.indexof(p)== -1) {
 			System.out.println(patient_name+" already exist")
 			return false;
