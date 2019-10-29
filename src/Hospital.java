@@ -20,10 +20,9 @@ public class Hospital
       return getDatabaseSupportInstance().checkSchedule(doctor_name);
     }
 
-    public boolean makeAppointment(String day, int hours, int minutes) throws ObjectNotFoundException {
-  		Random rand = new Random();
-  		int id = hours * minutes + rand.nextInt(hours + minutes);
-      return getDatabaseSupportInstance().makeAppointment(doctor_name);
+    public boolean makeAppointment(String name, String day, int hours, int minutes, String doctorName) throws ObjectNotFoundException {
+      Appointment ap = getDatabaseSupportInstance().getPatient(name).makeAppointment(day, hours, minutes, doctorName);
+      return getDatabaseSupportInstance().addAppointment(ap);
     }
 
     public String getPrescription() throws ObjectNotFoundException {

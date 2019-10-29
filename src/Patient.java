@@ -33,7 +33,7 @@ public class Patient {
 	 * @param minutes - The minute of the appointment time
 	 * @return True if making an appointment is successful, false otherwise
 	 */
-	public boolean makeAppointment(String day, int hours, int minutes) {
+	public Appointment makeAppointment(String day, int hours, int minutes, String doctorName) {
 		if(day == NULL || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
 			return false;
 
@@ -41,7 +41,8 @@ public class Patient {
 		int id = hours * minutes + rand.nextInt(hours + minutes);
 		ap = new Appointment(id);
 		ap.setpatient_name(getName());
-		return true;
+		ap.setdoctor_name(doctorName);
+		return ap;
 	}
 
 	/**
