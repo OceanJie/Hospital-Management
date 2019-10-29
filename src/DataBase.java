@@ -2,7 +2,11 @@ import java.util.LinkedList;
 
 public class DataBase {
 
-	LinkedList<Patient> patients;
-	LinkedList<Doctor> doctors;
-	LinkedList<Appointment> appointments;
+	Hashtable<String, Patient> patients;
+	Hashtable<String, Doctor> doctors;
+	Hashtable<String, Appointment> appointments;
+    
+    
+    getPatient(string patient_name)
+    
 }
