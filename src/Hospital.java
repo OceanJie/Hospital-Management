@@ -11,17 +11,34 @@ public class Hospital
             return db;
     }
 
-    public boolean givePrescription(int app_id, String pre) throws ObjectNotFoundException
+    public boolean givePrescription(int app_id, String pre)
     {
-        return getDatabaseSupportInstance().getAppointment(app_id).setPrescription(pre);
+      Appointment app = null;
+      try{
+        app = getDatabaseSupportInstance().getAppointment(app_id);
+      }
+      catch(Exeception e)
+      {
+        return false;
+      }
+      app.setPrescription(pre);
+      return true;
     }
 
-    public LinkedList<Appointment> checkSchedule(String doctor_name) throws ObjectNotFoundException
+    public LinkList<Appointment> checkSchedule(string doctor_name)
     {
-      return getDatabaseSupportInstance().checkSchedule(doctor_name);
+      LinkList<Appointment> schedule = null;
+      try{
+      schedule = getDatabaseSupportInstance().checkSchedule(doctor_name);
     }
+    catch(Exeception e)
+    {
+      return null;
+    }
+    return schedule;
+  }
 
-    public boolean makeAppointment(String name, String day, int hours, int minutes, String doctorName) throws ObjectNotFoundException {
+    public boolean makeAppointment(String name, String day, int hours, int minutes, String doctorName) {
       Appointment ap = getDatabaseSupportInstance().getPatient(name).makeAppointment(day, hours, minutes, doctorName);
       return getDatabaseSupportInstance().addAppointment(ap);
     }
