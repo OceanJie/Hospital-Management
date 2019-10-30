@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 public class DataBase {
 
@@ -52,10 +53,10 @@ public class DataBase {
 	LinkedList<Appointment> checkSchedule(String doctor_name)
 	{
 		LinkedList<Appointment> res = new LinkedList<>();
-		Iterator it = appointments.entrySet().iterator();
+		Iterator<Entry<Integer, Appointment>> it = appointments.entrySet().iterator();
 		while (it.hasNext()) {
-			Appointment token = it.next();
-			if(token.getDoctor().equals(doctor_name))
+			Appointment token = it.next().getValue();
+			if(token.getdoctor_name().equals(doctor_name))
 				res.add(token);
 		}
 		return res;
