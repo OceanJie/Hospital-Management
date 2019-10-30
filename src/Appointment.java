@@ -1,8 +1,7 @@
-
 public class Appointment {
-  string patient_name;
-  string doctor_name;
-  string prescription;
+  String patient_name;
+  String doctor_name;
+  String prescription;
   int app_id;
 
   public Appointment(int id)
@@ -10,35 +9,35 @@ public class Appointment {
     app_id = id;
   }
 
-  public void setprescription(string pre)
+  public void setprescription(String pre)
   {
     prescription = pre;
   }
 
-  public string getprescription()
+  public String getprescription()
   {
     return prescription;
   }
 
-  public void setpatient_name(string name)
+  public void setpatient_name(String name)
   {
     patient_name = name;
   }
 
-  public string getpatient_name()
+  public String getpatient_name()
   {
     return patient_name;
   }
 
 
-  public string getdoctor_name()
+  public String getdoctor_name()
   {
     return doctor_name;
   }
 
-  public void setdoctor_name(string doctor)
+  public void setdoctor_name(String doctor)
   {
-    doctor_name = name;
+    doctor_name = doctor;
   }
 
   public int getID()

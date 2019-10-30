@@ -1,59 +1,64 @@
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 public class DataBase {
 
-	private Hashmap<String, Patient> patients;
-	private Hashmap<String, Doctor> doctors;
-	private Hashmap<Integer, Appointment> appointments;
+	private HashMap<String, Patient> patients;
+	private HashMap<String, Doctor> doctors;
+	private HashMap<Integer, Appointment> appointments;
 
-		public DataBase()
-		{
-			patients = new Hashmap<String, Patient>;
-			doctors = new Hashmap<String, Doctor>;
-			appointments = new Hashtmap<Integer, Appointment>;
+	public DataBase()
+	{
+		patients = new HashMap<String, Patient>();
+		doctors = new HashMap<String, Doctor>();
+		appointments = new HashMap<Integer, Appointment>();
+	}
+
+	public void addPatient(Patient p)
+	{
+		patients.put(p.getName(), p);
+	}
+
+	public Patient getPatient(string patient_id)
+	{
+		return patients.get(patient_id);
+	}
+
+	public void addDoctor(Doctor d)
+	{
+		doctors.put(d.getName(), d);
+	}
+
+	public Doctor getDoctor(string dcotor_id)
+	{
+		return doctors.get(doctor_id);
+	}
+
+	public boolean addAppointment(Appointment app)
+	{
+		appointments.put(app.getID(), app);
+		return true;
+	}
+	public Appointment getAppointment(int id)
+	{
+		return appointments.get(id);
+	}
+
+	public String getPrescription(String patient_name) {
+		return getPatient(patient_name).getPrescription();
+	}
+
+	LinkedList<Appointment> checkSchedule(String doctor_name)
+	{
+		LinkedList<Appointment> res = new LinkedList<>();
+		Iterator<Entry<Integer, Appointment>> it = appointments.entrySet().iterator();
+		while (it.hasNext()) {
+			Appointment token = it.next().getValue();
+			if(token.getdoctor_name().equals(doctor_name))
+				res.add(token);
 		}
-
-		public void addPatient(Patient p)
-		{
-			patients.put(p.getName(), p);
-		}
-
-    public Patient getPatient(string patient_name)
-		{
-			return patients.get(patient_name);
-		}
-
-		public void addDoctor(Doctor d)
-		{
-			Doctor.put(d.getName(), d);
-		}
-
-		public Doctor getDoctor(string dcotor_name)
-		{
-			return doctors.get(doctor_name);
-		}
-
-		public boolean addAppointment(Appointment app)
-		{
-			appointments.put(app.getID(), app);
-			return true;
-		}
-		public Appointment getAppointment(int id)
-		{
-			return appointments.get(new Integer(id));
-		}
-
-		LinkedList<Appointment> checkSchedule(string doctor_name);
-		{
-			LinkedList<Appointment> res = new LinkedList();
-			Iterator it = appointments.entrySet().iterator();
-			 while (it.hasNext()) {
-				 Appointment token = it.next();
-				 if(token.getDoctor().equals(doctor_name))
-				 res.add(token);
-			 }
-			 return res;
-		}
-
-
+		return res;
+	}
 }

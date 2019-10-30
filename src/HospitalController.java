@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 public class HospitalController
 {
 
@@ -8,21 +10,29 @@ public class HospitalController
     h = new Hospital();
   }
 
-  public boolean givePrescription(int app_id, String pre) throws ObjectNotFoundException
+  public boolean addDoctor(String doctor_id, String doctor_name) throws ObjectNotFoundException{
+    return h.addDoctor(doctor_id,doctor_name);
+  }
+
+  public boolean addPatient(String patient_id, String patient_name) throws ObjectNotFoundException{
+    return h.addPatient(patient_id,patient_name);
+  }
+
+  public boolean givePrescription(int app_id, String pre)
   {
     return h.givePrescription(app_id, pre);
   }
 
-  public LinkList<Appointment> checkSchedule(string doctor_name) throws ObjectNotFoundException
+  public LinkedList<Appointment> checkSchedule(String doctor_name)
   {
     return h.checkSchedule(doctor_name);
   }
 
-  public boolean makeAppointment(String day, int hours, int minutes) throws ObjectNotFoundException {
-    return h.makeAppointment(day, hours, minutes);
+  public boolean makeAppointment(String name, String day, int hours, int minutes, String doctor_name) {
+    return h.makeAppointment(name, day, hours, minutes, doctor_name);
   }
 
-  public String getPrescription() throws ObjectNotFoundException {
-    return h.getPrescription();
+  public String getPrescription(String name) {
+    return h.getPrescription(name);
   }
 }
