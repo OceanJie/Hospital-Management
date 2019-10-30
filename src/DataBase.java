@@ -45,6 +45,10 @@ public class DataBase {
 		return appointments.get(id);
 	}
 
+	public String getPrescription(String patient_name) {
+		return getPatient(patient_name).getPrescription();
+	}
+	
 	LinkedList<Appointment> checkSchedule(String doctor_name)
 	{
 		LinkedList<Appointment> res = new LinkedList<>();
