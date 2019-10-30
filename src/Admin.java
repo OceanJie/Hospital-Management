@@ -1,5 +1,3 @@
-package iteration.one;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +23,8 @@ public class Admin {
 	 */
 	public boolean addDoctor(String doctor_name) {
 		Doctor doc = new Doctor (doctor_name);
-		if(listofDoctor.indexof(doc)== -1) {
-			System.out.println(doctor_name+" already exist")
+		if(listofDoctor.indexOf(doc)== -1) {
+			System.out.println(doctor_name+" already exist");
 			return false;
 		}
 		else{
@@ -44,8 +42,8 @@ public class Admin {
 	public boolean addPatient(String patient_name) {
 		Patient p = new Patient (patient_name);
 
-		if(listofPatient.indexof(p)== -1) {
-			System.out.println(patient_name+" already exist")
+		if(listofPatient.indexOf(p)== -1) {
+			System.out.println(patient_name+" already exist");
 			return false;
 		}
 		else{

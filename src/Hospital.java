@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 
 public class Hospital
 {
@@ -15,7 +16,7 @@ public class Hospital
         return getDatabaseSupportInstance().getAppointment(app_id).setPrescription(pre);
     }
 
-    public LinkList<Appointment> checkSchedule(string doctor_name) throws ObjectNotFoundException
+    public LinkedList<Appointment> checkSchedule(String doctor_name) throws ObjectNotFoundException
     {
       return getDatabaseSupportInstance().checkSchedule(doctor_name);
     }

@@ -1,4 +1,4 @@
-package iteration.one;
+import java.util.Random;
 
 /**
  * Patient class
@@ -34,8 +34,8 @@ public class Patient {
 	 * @return True if making an appointment is successful, false otherwise
 	 */
 	public Appointment makeAppointment(String day, int hours, int minutes, String doctorName) {
-		if(day == NULL || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
-			return false;
+		if(day == null || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
+			return null;
 
 		Random rand = new Random();
 		int id = hours * minutes + rand.nextInt(hours + minutes);

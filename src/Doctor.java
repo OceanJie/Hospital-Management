@@ -3,15 +3,15 @@ public class Doctor {
 
 	private String doctor_name;
 
-	public Doctor(string name)
+	public Doctor(String name)
 	{
 		doctor_name = name;
 	}
-	public void setName(string name)
+	public void setName(String name)
 	{
 		doctor_name = name;
 	}
-	public string getName()
+	public String getName()
 	{
 		return doctor_name;
 	}
