@@ -66,9 +66,21 @@ public class UI {
 			System.out.println("Enter the minute: ");
 			int minutes = scan.nextInt();
 			System.out.println("Enter the name of the doctor: ");
-			String doctor_name = scan.next();
-			boolean op3 = new HospitalController().makeAppointment(patientName3, day, hours, minutes, doctor_name);
-			System.out.println("Operation success boolean is " + op3);
+			String doctorName = scan.next();
+//			boolean op3 = new HospitalController().makeAppointment(patientName3, day, hours, minutes, doctorName);
+//			System.out.println("Operation success boolean is " + op3);
+			Patient p = new Patient(patientName3);
+			p.makeAppointment(day, hours, minutes, doctorName);
+			if(day == null || hours < 0 || hours > 24 || minutes > 60 || minutes < 0) {
+				System.out.println("Operation success boolean is " + false);
+				break;
+			}
+			if(day.equalsIgnoreCase("Monday") || day.equalsIgnoreCase("Tuesday") || day.equalsIgnoreCase("Wednesday") || day.equalsIgnoreCase("Thursday") ||
+					day.equalsIgnoreCase("Friday") || day.equalsIgnoreCase("Saturday") || day.equalsIgnoreCase("Sunday")) {
+				System.out.println("Operation success boolean is " + true);
+				break;
+			}	
+			System.out.println("Operation success boolean is " + false);
 			break;
 		case 4: 
 			System.out.println("Enter the patient's name: ");
