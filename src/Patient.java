@@ -72,16 +72,17 @@ public class Patient {
 		if(day == null || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
 			return null;
 
-		if(!day.equalsIgnoreCase("Monday") || !day.equalsIgnoreCase("Tuesday") || !day.equalsIgnoreCase("Wednesday") || !day.equalsIgnoreCase("Thursday") ||
-				!day.equalsIgnoreCase("Friday") || !day.equalsIgnoreCase("Saturday") || !day.equalsIgnoreCase("Sunday"))
+		if(day.equalsIgnoreCase("Monday") || day.equalsIgnoreCase("Tuesday") || day.equalsIgnoreCase("Wednesday") || day.equalsIgnoreCase("Thursday") ||
+				day.equalsIgnoreCase("Friday") || day.equalsIgnoreCase("Saturday") || day.equalsIgnoreCase("Sunday")) {
+			Random rand = new Random();
+			int id = hours * minutes + rand.nextInt(hours + minutes);
+			ap = new Appointment(id);
+			ap.setpatient_name(getName());
+			ap.setdoctor_name(doctorName);
+			return ap;
+		} else {
 			return null;
-		
-		Random rand = new Random();
-		int id = hours * minutes + rand.nextInt(hours + minutes);
-		ap = new Appointment(id);
-		ap.setpatient_name(getName());
-		ap.setdoctor_name(doctorName);
-		return ap;
+		}
 	}
 
 	/**
