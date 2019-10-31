@@ -27,35 +27,31 @@ public class Pharmacy {
         {
             name = prescriptionList.nextToken();
             temp = prescriptionList.nextToken();
-            if(isNumeric(temp)) {
-                amount = Integer.parseInt(temp);
+            if(inventory.getAmount(name) <= 0){
+                System.out.println("Medicine " + name + " is either not in inventory or OUT OF STOCK");
+                return false;
             }
-            else{
+            if(!isNumeric(temp)) {
                 System.out.println("Expected: medicineName amount medicineName amount .....");
                 return false;
             }
-            inventory.deduction(name, amount);
-    }
-        printInvoice(prescription);
-        return true;
-    }
-
-    /**
-     * Helper method that prints an invoice
-     * @param prescription patient's prescription
-     */
-    private void printInvoice(String prescription){
-        StringTokenizer preList = new StringTokenizer(prescription);
-        String name;
-        String amount;
-        System.out.println("Invoice: ");
-        while (preList.hasMoreTokens()) {
-            name = preList.nextToken();
-            amount = preList.nextToken();
-
-            System.out.println("Medicine: " + name + " " + "amount: " + amount);
         }
-
+        prescriptionList = new StringTokenizer(prescription);
+        int oriAmount;
+        System.out.println("Invoice: ");
+        while (prescriptionList.hasMoreTokens())
+        {
+            name = prescriptionList.nextToken();
+            amount = Integer.parseInt(prescriptionList.nextToken());
+            oriAmount = inventory.getAmount(name);
+            inventory.deduction(name, amount);
+            if(amount > oriAmount){
+                System.out.println("Medicine: " + name + " " + "amount: " + oriAmount);
+            }else{
+                System.out.println("Medicine: " + name + " " + "amount: " + (oriAmount - inventory.getAmount(name)));
+            }
+        }
+        return true;
     }
 
     /**

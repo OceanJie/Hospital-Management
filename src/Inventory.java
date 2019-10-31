@@ -25,7 +25,7 @@ public class Inventory {
         for(int i = 0; i < medicines.size(); i++ ) {
             temp = medicines.get(i).getMediName();
             if(temp.equals(name))
-                medicines.get(i).addAmount(0);
+                medicines.get(i).addAmount(1);
             if(i+1 == medicines.size() && !temp.equals(name))
                 medicines.add(new Medicine(name));
         }
@@ -85,6 +85,23 @@ public class Inventory {
             }
         }
    }
+
+    /**
+     * Gets the amount of the target medicine
+     * @param name the name of the medicine
+     * @return amount of the target medicine
+     */
+    public int getAmount(String name){
+        String temp;
+        for(int i = 0; i < medicines.size(); i++ ){
+            temp = medicines.get(i).getMediName();
+            if(temp.equals(name))
+                return medicines.get(i).getAmount();
+            else
+                return -1;
+        }
+        return -1;
+    }
 
     /**
      * Prints the entire inventory list. Format(Name: medicineName Amount: medicineAmount)
