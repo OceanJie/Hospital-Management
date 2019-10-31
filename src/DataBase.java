@@ -21,6 +21,7 @@ public class DataBase {
 		patients.put(p.getName(), p);
 	}
 
+<<<<<<< HEAD
 	public Patient getPatient(string patient_id)
 	{
 		return patients.get(patient_id);
@@ -50,6 +51,37 @@ public class DataBase {
 		return getPatient(patient_name).getPrescription();
 	}
 
+=======
+	public Patient getPatient(String patient_name)
+	{
+		return patients.get(patient_name);
+	}
+
+	public void addDoctor(Doctor d)
+	{
+		doctors.put(d.getName(), d);
+	}
+
+	public Doctor getDoctor(String dcotor_name)
+	{
+		return doctors.get(dcotor_name);
+	}
+
+	public boolean addAppointment(Appointment app)
+	{
+		appointments.put(app.getID(), app);
+		return true;
+	}
+	public Appointment getAppointment(int id)
+	{
+		return appointments.get(id);
+	}
+
+	public String getPrescription(String patient_name) {
+		return getPatient(patient_name).getPrescription();
+	}
+	
+>>>>>>> 1253e007b7a56a6474a8ac03b420c370068ca55a
 	LinkedList<Appointment> checkSchedule(String doctor_name)
 	{
 		LinkedList<Appointment> res = new LinkedList<>();
