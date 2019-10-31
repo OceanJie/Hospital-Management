@@ -3,6 +3,11 @@ public class Appointment {
   String doctor_name;
   String prescription;
   int app_id;
+  /*
+  *Appointment class
+  *
+  * @author Bojun Lin
+  */
 
   public Appointment(int id)
   {

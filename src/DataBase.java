@@ -4,6 +4,11 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 
 public class DataBase {
+	/*
+	*DataBase class
+	*
+	* @author Bojun Lin
+	*/
 
 	private HashMap<String, Patient> patients;
 	private HashMap<String, Doctor> doctors;
@@ -49,7 +54,7 @@ public class DataBase {
 	public String getPrescription(String patient_name) {
 		return getPatient(patient_name).getPrescription();
 	}
-	
+
 
 	LinkedList<Appointment> checkSchedule(String doctor_name)
 	{

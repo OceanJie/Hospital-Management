@@ -1,5 +1,11 @@
 import java.util.LinkedList;
 
+/*
+*Hospital class
+*
+* @author Bojun Lin
+*/
+
 public class Hospital
 {
 	private DataBase db;
