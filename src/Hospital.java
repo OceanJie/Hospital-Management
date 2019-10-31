@@ -11,7 +11,6 @@ public class Hospital
 		return db;
 	}
 
-<<<<<<< HEAD
 	public boolean addPatient(String patient_id, String patient_name) throws ObjectNotFoundException
 	{
 		return getDatabaseSupportInstance().getPatient(patient_id).addPatient(patient_name);
@@ -53,7 +52,6 @@ public class Hospital
 		return getDatabaseSupportInstance().addAppointment(ap);
 	}
 
-=======
 	public boolean givePrescription(int app_id, String pre)
 	{
 		Appointment app = null;
@@ -86,7 +84,7 @@ public class Hospital
 		return getDatabaseSupportInstance().addAppointment(ap);
 	}
 
->>>>>>> 1253e007b7a56a6474a8ac03b420c370068ca55a
+
 	public String getPrescription(String patient_name) {
 		String prescription = "";
 		try {

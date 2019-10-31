@@ -10,7 +10,7 @@ public class HospitalController
     h = new Hospital();
   }
 
-<<<<<<< HEAD
+
   public boolean addDoctor(String doctor_id, String doctor_name) throws ObjectNotFoundException{
     return h.addDoctor(doctor_id,doctor_name);
   }
@@ -20,9 +20,9 @@ public class HospitalController
   }
 
   public boolean givePrescription(int app_id, String pre)
-=======
+
   public boolean givePrescription(int app_id, String pre) 
->>>>>>> 1253e007b7a56a6474a8ac03b420c370068ca55a
+
   {
     return h.givePrescription(app_id, pre);
   }
