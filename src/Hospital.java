@@ -68,7 +68,8 @@ public class Hospital
 	}
 
 	public boolean makeAppointment(String name, String day, int hours, int minutes, String doctorName) {
-		Appointment ap = getDatabaseSupportInstance().getPatient(name).makeAppointment(day, hours, minutes, doctorName);
+		Patient p = getDatabaseSupportInstance().getPatient(name);
+		Appointment ap = p.makeAppointment(day, hours, minutes, doctorName);
 		return getDatabaseSupportInstance().addAppointment(ap);
 	}
 

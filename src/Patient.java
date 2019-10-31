@@ -10,10 +10,12 @@ public class Patient {
 	private String name;
 	private String id;
 	private Appointment ap;
+	private String sickness;
 
 	public Patient(String id, String name) {
 		this.id = id;
 		this.name = name;
+		sickness = "NONE";
 	}
 	
 	public Patient(String name) {
@@ -28,6 +30,32 @@ public class Patient {
 	public String getName() {
 
 		return name;
+	}
+	
+	/**
+	 * Get the sickness of this patient
+	 * 
+	 * @return The sickness of this patient
+	 */
+	public String getSickness() {
+		return sickness;
+	}
+	
+	/**
+	 * Sets the sickness of this patient
+	 * @param sickness Patient's sickness
+	 */
+	public void setSickness(String sickness) {
+		this.sickness = sickness;
+	}
+	
+	/**
+	 * Gets the ID of this patient
+	 * 
+	 * @return ID of this patient
+	 */
+	public String getID() {
+		return id;
 	}
 
 	/**
@@ -44,6 +72,10 @@ public class Patient {
 		if(day == null || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
 			return null;
 
+		if(!day.equalsIgnoreCase("Monday") || !day.equalsIgnoreCase("Tuesday") || !day.equalsIgnoreCase("Wednesday") || !day.equalsIgnoreCase("Thursday") ||
+				!day.equalsIgnoreCase("Friday") || !day.equalsIgnoreCase("Saturday") || !day.equalsIgnoreCase("Sunday"))
+			return null;
+		
 		Random rand = new Random();
 		int id = hours * minutes + rand.nextInt(hours + minutes);
 		ap = new Appointment(id);
