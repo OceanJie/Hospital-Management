@@ -8,12 +8,16 @@ import java.util.Random;
 public class Patient {
 
 	private String name;
-	private String id
+	private String id;
 	private Appointment ap;
 
 	public Patient(String id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+	
+	public Patient(String name) {
+		this("0", name);
 	}
 
 	/**

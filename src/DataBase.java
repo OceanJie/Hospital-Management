@@ -21,7 +21,7 @@ public class DataBase {
 		patients.put(p.getName(), p);
 	}
 
-	public Patient getPatient(string patient_id)
+	public Patient getPatient(String patient_id)
 	{
 		return patients.get(patient_id);
 	}
@@ -31,39 +31,9 @@ public class DataBase {
 		doctors.put(d.getName(), d);
 	}
 
-	public Doctor getDoctor(string dcotor_id)
+	public Doctor getDoctor(String doctor_id)
 	{
 		return doctors.get(doctor_id);
-	}
-
-	public boolean addAppointment(Appointment app)
-	{
-		appointments.put(app.getID(), app);
-		return true;
-	}
-	public Appointment getAppointment(int id)
-	{
-		return appointments.get(id);
-	}
-
-	public String getPrescription(String patient_name) {
-		return getPatient(patient_name).getPrescription();
-	}
-
-
-	public Patient getPatient(String patient_name)
-	{
-		return patients.get(patient_name);
-	}
-
-	public void addDoctor(Doctor d)
-	{
-		doctors.put(d.getName(), d);
-	}
-
-	public Doctor getDoctor(String dcotor_name)
-	{
-		return doctors.get(dcotor_name);
 	}
 
 	public boolean addAppointment(Appointment app)
