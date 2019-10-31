@@ -11,13 +11,33 @@ public class Hospital
 		return db;
 	}
 
-	public boolean addPatient(String patient_id, String patient_name) throws ObjectNotFoundException
+	public boolean addPatient(String patient_id, String patient_name)
 	{
-		return getDatabaseSupportInstance().getPatient(patient_id).addPatient(patient_name);
+		Patient patient = null;
+		try{
+			patient = getDatabaseSupportInstance().getPatient(patient_id);
+		}
+		catch (Exception e){
+			System.out.println("patient id already exist");
+			return false;
+		}
+		patient = new Patient (patient_id, patient_name);
+		db.addPatient(patient);
+		return true;
 	}
-	public boolean addDoctor(String doctor_id, String doctor_name) throws ObjectNotFoundException
+	public boolean addDoctor(String doctor_id, String doctor_name)
 	{
-		return getDatabaseSupportInstance().getDoctor(doctor_id).addDoctor(doctor_name);
+		Doctor doctor = null;
+		try{
+			doctor = getDatabaseSupportInstance().getdoctor(doctor_id);
+		}
+		catch (Exception e){
+			System.out.println("doctor id already exist");
+			return false;
+		}
+		doctor = new Doctor (doctor_id,doctor_name);
+		db.addDoctor(doctor);
+		return true;
 	}
 
 	public boolean givePrescription(int app_id, String pre)

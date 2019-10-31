@@ -8,9 +8,11 @@ import java.util.Random;
 public class Patient {
 
 	private String name;
+	private String id
 	private Appointment ap;
 
-	public Patient(String name) {
+	public Patient(String id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 
@@ -20,6 +22,7 @@ public class Patient {
 	 * @return The name of this patient
 	 */
 	public String getName() {
+
 		return name;
 	}
 
