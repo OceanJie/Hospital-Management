@@ -164,13 +164,18 @@ public class UI {
 
 
 				break;
-			/*Give Medicine (Not implemented yet)*/
+			/*Give Medicine*/
 			case 7:
-				System.out.println("7");
+				System.out.println("Enter the appointment's ID: ");
+				int appID7 = scan.nextInt();
+				Pharmacy pharmacy = new Pharmacy();
+				Appointment ap = new Appointment(appID7);
+				pharmacy.giveMedicine(ap.getprescription());
 				break;
-			/*Update inventory (not implemented yet)*/
+			/*Update inventory*/
 			case 8:
-				System.out.println("8");
+				Pharmacy pharmacy8 = new Pharmacy();
+				pharmacy8.printInventoryList();
 				break;
 		}
 		scan.close();
