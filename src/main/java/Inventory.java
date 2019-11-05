@@ -99,8 +99,6 @@ public class Inventory {
             temp = medicines.get(i).getMediName();
             if(temp.equals(name))
                 return medicines.get(i).getAmount();
-            else
-                return -1;
         }
         return -1;
     }
