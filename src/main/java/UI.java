@@ -1,5 +1,7 @@
 package main.java;
 
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -10,23 +12,21 @@ import java.util.Scanner;
  */
 public class UI {
 	public static void main(String[] args) {
-		
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Enter the operation number");
-		System.out.println("1. Add Doctor");
-		System.out.println("2. Add Patient");
-		System.out.println("3. Make Appointment");
-		System.out.println("4. Get Prescription");
-		System.out.println("5. Check Schedule");
-		System.out.println("6. Give Prescription");
-		System.out.println("7. Give Medicine");
-		System.out.println("8. Update Inventory");
-		System.out.println("Your option: ");
-		
-		int option = scan.nextInt();
-		
-		while(option < 1 || option > 8) {
-			System.out.println("\nInvalid option!");
+		/*Connecting to the local server*/
+		String url = "jdbc:mysql://localhost:3306/mydb?useSSL=false";
+		String user = "root";
+		String password = "1234";
+		Connection conn = new Connection();
+
+
+		try {
+			/*downloading the driver for jbdc*/
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+			/*just use this one for the myStmt*/
+			Statement myStmt = myConn.createStatement();
+
+			Scanner scan = new Scanner(System.in);
 			System.out.println("Enter the operation number");
 			System.out.println("1. Add Doctor");
 			System.out.println("2. Add Patient");
@@ -37,83 +37,149 @@ public class UI {
 			System.out.println("7. Give Medicine");
 			System.out.println("8. Update Inventory");
 			System.out.println("Your option: ");
-			
-			option = scan.nextInt();
-		}
-		
-		switch(option) {
-		case 1: 
-			System.out.println("Enter the doctor's name: No space in between");
-			String docName = scan.next();
-			System.out.println("Enter the doctor's ID: ");
-			String docID = scan.next();
-			boolean op = new HospitalController().addDoctor(docID, docName);
-			System.out.println("Operation success boolean is " + op);
-			break;
-		case 2: 
-			System.out.println("Enter the patient's name: ");
-			String patientName = scan.next();
-			System.out.println("Enter the patient's ID: ");
-			String patientID = scan.next();
-			boolean op2 = new HospitalController().addDoctor(patientID, patientName);
-			System.out.println("Operation success boolean is " + op2);
-			break;
-		case 3: 
-			System.out.println("Enter the patient's name: ");
-			String patientName3 = scan.next();
-			System.out.println("Enter the day of appointment (Ex: Wednesday): ");
-			String day = scan.next();
-			System.out.println("Enter the hour (24-hr format): ");
-			int hours = scan.nextInt();
-			System.out.println("Enter the minute: ");
-			int minutes = scan.nextInt();
-			System.out.println("Enter the name of the doctor: ");
-			String doctorName = scan.next();
-//			boolean op3 = new HospitalController().makeAppointment(patientName3, day, hours, minutes, doctorName);
-//			System.out.println("Operation success boolean is " + op3);
-			Patient p = new Patient(patientName3);
-			p.makeAppointment(day, hours, minutes, doctorName);
-			if(day == null || hours < 0 || hours > 24 || minutes > 60 || minutes < 0) {
-				System.out.println("Operation success boolean is " + false);
-				break;
+
+			int option = scan.nextInt();
+
+			while(option < 1 || option > 8) {
+				System.out.println("\nInvalid option!");
+				System.out.println("Enter the operation number");
+				System.out.println("1. Add Doctor");
+				System.out.println("2. Add Patient");
+				System.out.println("3. Make Appointment");
+				System.out.println("4. Get Prescription");
+				System.out.println("5. Check Schedule");
+				System.out.println("6. Give Prescription");
+				System.out.println("7. Give Medicine");
+				System.out.println("8. Update Inventory");
+				System.out.println("Your option: ");
+
+				option = scan.nextInt();
 			}
-			if(day.equalsIgnoreCase("Monday") || day.equalsIgnoreCase("Tuesday") || day.equalsIgnoreCase("Wednesday") || day.equalsIgnoreCase("Thursday") ||
-					day.equalsIgnoreCase("Friday") || day.equalsIgnoreCase("Saturday") || day.equalsIgnoreCase("Sunday")) {
-				System.out.println("Operation success boolean is " + true);
+
+			switch(option) {
+				/*Add doctor*/
+				case 1:
+
+					System.out.println("Enter the doctor's First name: No space in between");
+					String docFirstName = scan.next();
+					System.out.println("Enter the doctor's Last Name");
+					String docLastName = scan.next();
+					String docName = docFirstName + " "+ docLastName;
+					System.out.println("Enter the doctor's ID: ");
+					String docID = scan.next();
+					Doctor doc = new Doctor(docID,docName);
+					conn.createDoctor(myStmt,doc);
+					//boolean op = new HospitalController().addDoctor(docID, docName);
+					//System.out.println("Operation success boolean is " + op);
+					break;
+
+
+			/*Add patient*/
+			case 2:
+
+				System.out.println("Enter the patient's First name: No space in between");
+				String patientFirstName_case2 = scan.next();
+				System.out.println("Enter the patient's Last Name: No space in between");
+				String patientLastName_case2 = scan.next();
+				String patientName_case2 = patientFirstName_case2 + " "+ patientLastName_case2;
+				System.out.println("Enter the patient's ID: ");
+				String patientID = scan.next();
+
+				Patient p_case2 = new Patient(patientID,patientName_case2);
+				conn.createPatient(myStmt,p_case2);
 				break;
-			}	
-			System.out.println("Operation success boolean is " + false);
-			break;
-		case 4: 
-			System.out.println("Enter the patient's name: ");
-			String patientName4 = scan.next();
-			String op4 = new HospitalController().getPrescription(patientName4);
-			System.out.println("The prescription would be: " + op4);
-			break;
-		case 5: 
-			System.out.println("Enter the doctor's name: ");
-			String docName5 = scan.next();
-			LinkedList<Appointment> op5 = new HospitalController().checkSchedule(docName5);
-			System.out.println("Doctor " + docName5 + " current list of schedule would be: ");
-			for(int i=0;i<op5.size();i++)
-				System.out.println(op5.get(i) + " ");
-			break;
-		case 6: 
-			System.out.println("Enter the appointment's ID: ");
-			int appID = scan.nextInt();
-			System.out.println("Enter the prescription: ");
-			String prescription = scan.next();
-			boolean op6 = new HospitalController().givePrescription(appID, prescription);
-			System.out.println("Operation success boolean is " + op6);
-			break;
-		case 7: 
-			System.out.println("7");
-			break;
-		case 8: 
-			System.out.println("8");
-			break;
-		}		
+			/*Make Appointment*/
+			case 3:
+				System.out.println("Enter the appointment ID: ");
+				int appId = scan.nextInt();
+				System.out.println("Enter the patient's First name: No space in between");
+				String patientFirstName_case3 = scan.next();
+				System.out.println("Enter the patient's Last Name: No space in between");
+				String patientLastName_case3 = scan.next();
+				String patientName_case3 = patientFirstName_case3+ " "+patientLastName_case3;
+				/*check if patient exist or not, require to create new patient before proceeding to make appointment*/
+				if (!conn.isPatientExist(myStmt,patientName_case3)){
+					System.out.printf("Patient Name: %s does not exist. Please create a new patient before making appointment or use a existing patient ",patientName_case3);
+					break;
+				}
+
+				System.out.println("Enter the Month of appointment (Ex: 12): ");
+				int month = scan.nextInt();
+				System.out.println("Enter the day of the appointment (Ex: 30)");
+				int day = scan.nextInt();
+				System.out.println("Enter the hour (24-hr format): ");
+				int hours = scan.nextInt();
+				System.out.println("Enter the minute: ");
+				int minutes = scan.nextInt();
+				/*check if the date and time are valid or not*/
+				if(day<1||day>31 ||month>12||month<1 || hours < 0 || hours > 24 || minutes > 60 || minutes < 0) {
+					System.out.println("Invalid Date and time, Please use 24 hours format. E.g Hours: 24 Minutes: 30. Please make sure the date and time is valid. ");
+					break;
+				}
+
+				System.out.println("Enter the First name of the doctor: No space in between");
+				String doctorFirstName_case3 = scan.next();
+				System.out.println("Enter the last name of the doctor: No space in between");
+				String doctorLastName_case3 = scan.next();
+				String doctorName_case3 = doctorFirstName_case3 + " "+ doctorLastName_case3;
+				/*check  if doctor exist in the table*/
+				if(!conn.isStringEntityExist(myStmt,"doctors","doctorName",doctorName_case3)){
+					System.out.printf("Doctor Name: %s does not exist. Please create a new patient before making appointment or use a existing doctor ",doctorName_case3);
+					break;
+				}
+				/*prescription not given yet so initialize it as null*/
+				String prescrip = "";
+//
+				Appointment app = new Appointment(appId,patientName_case3,doctorName_case3,month,day,hours,minutes,prescrip);
+				conn.createAppointment(myStmt,app);
+
+				break;
+			/*Get Prescription*/
+			case 4:
+				System.out.println("Enter the patient's First name: No space in between");
+				String patientFirstName_case4 = scan.next();
+				System.out.println("Enter the patient's Last Name: No space in between");
+				String patientLastName_case4 = scan.next();
+				String patientName_case4 = patientFirstName_case4+ " "+patientLastName_case4;
+				conn.getPatientPrescrip(myStmt,patientName_case4);
+				break;
+			/*Check Schedule*/
+			case 5:
+				System.out.println("Enter the First name of the doctor: No space in between");
+				String doctorFirstName_case5 = scan.next();
+				System.out.println("Enter the last name of the doctor: No space in between");
+				String doctorLastName_case5 = scan.next();
+				String doctorName_case5 = doctorFirstName_case5 + " "+ doctorLastName_case5;
+
+				conn.getDoctorAppointment(myStmt,doctorName_case5);
+
+
+				break;
+			/*Give Prescription*/
+			case 6:
+				System.out.println("Enter the appointment's ID: ");
+				int appID = scan.nextInt();
+				System.out.println("Enter the prescription: ");
+				String prescription = scan.next();
+
+
+				break;
+			/*Give Medicine (Not implemented yet)*/
+			case 7:
+				System.out.println("7");
+				break;
+			/*Update inventory (not implemented yet)*/
+			case 8:
+				System.out.println("8");
+				break;
+		}
 		scan.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
 	}
 }
 
