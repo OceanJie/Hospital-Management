@@ -134,6 +134,7 @@ public class UI {
 						/*prescription not given yet so initialize it as null*/
 						String prescrip = "";
 //
+
 						Appointment app = new Appointment(appId,patientName_case3,doctorName_case3,month,day,hours,minutes,prescrip);
 						conn.createAppointment(myStmt,app);
 
@@ -189,7 +190,9 @@ public class UI {
 			}
 			while(option!=0);
 
-			scan.close();
+				
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

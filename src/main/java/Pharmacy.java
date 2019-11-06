@@ -65,7 +65,7 @@ public class Pharmacy {
      */
     private boolean isNumeric(String strNum) {
         try {
-            int d = Integer.parseInt(strNum);
+            Integer.parseInt(strNum);
         } catch (NumberFormatException | NullPointerException nfe) {
             return false;
         }
@@ -75,7 +75,7 @@ public class Pharmacy {
     /**
      * For pharmacy to print the entire inventory list
      */
-    private void printInventoryList() {
+    public void printInventoryList() {
         inventory.printList();
     }
 
@@ -84,7 +84,7 @@ public class Pharmacy {
      *
      * @param name medicine name that is to be added
      */
-    private void addMedicine(String name) {
+    public void addMedicine(String name) {
         inventory.addMedicine(name);
     }
 
@@ -94,7 +94,7 @@ public class Pharmacy {
      * @param name   medicine name that is to be added
      * @param amount amount that is to be added
      */
-    private void addMedicine(String name, int amount) {
+    public void addMedicine(String name, int amount) {
         inventory.addMedicine(name, amount);
     }
 
@@ -103,7 +103,7 @@ public class Pharmacy {
      *
      * @param name target name of the medicine that is to be removed
      */
-    private void emptyMedicineInventory(String name) {
+    public void emptyMedicineInventory(String name) {
         inventory.removeWhole(name);
     }
 }
