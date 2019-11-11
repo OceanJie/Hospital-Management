@@ -30,7 +30,6 @@ public class Patient {
 	 * @return The name of this patient
 	 */
 	public String getName() {
-
 		return name;
 	}
 	
