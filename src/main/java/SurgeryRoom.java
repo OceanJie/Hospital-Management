@@ -13,6 +13,7 @@ public class SurgeryRoom {
 	private int hoursOfUse;
 	private Patient patient;
 	private Surgeon surgeon;
+	private Nurse[] nurses;
 	
 	/**
 	 * Constructor 
@@ -23,12 +24,13 @@ public class SurgeryRoom {
 	 * @param patient - The patient that will undergo surgery
 	 * @param surgeon - The surgeon that will perform surgery
 	 */
-	public SurgeryRoom(int ID, int startTime, int hoursOfUse, Patient patient, Surgeon surgeon) {
+	public SurgeryRoom(int ID, int startTime, int hoursOfUse, Patient patient, Surgeon surgeon, Nurse[] nurses) {
 		this.ID = ID;
 		this.startTime = startTime;
 		this.hoursOfUse = hoursOfUse;
 		this.patient = patient;
 		this.surgeon = surgeon;
+		this.nurses = nurses;
 	}
 	
 	public int getID() {
@@ -51,26 +53,18 @@ public class SurgeryRoom {
 		return surgeon;
 	}
 	
-	/**
-	 * Check if this room is available 
-	 * 
-	 * @return
-	 */
-	public boolean isAvailable() {
-		return false;
+	public Nurse[] getNurses() {
+		return nurses;
 	}
 	
 	/**
-	 * Set that this room will be in use for some designated time
+	 * For now, retrieve a constant amount of tools from the inventory
 	 * 
-	 * @return True if the room is available at this time, false otherwise
+	 * @return True if the amount of tools is enough, false otherwise
 	 */
-	public boolean setRoomUse() {
-		if(isAvailable())
-			return false;
-		else {
-			//TODO
-			return true;
-		}
+	public boolean retrieveTools() {
+		Inventory inventory = new Inventory();
+		//TODO 
+		return false;
 	}
 }
