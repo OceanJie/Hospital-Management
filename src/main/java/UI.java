@@ -38,13 +38,16 @@ public class UI {
 				System.out.println("6. Give Prescription");
 				System.out.println("7. Give Medicine");
 				System.out.println("8. Update Inventory");
-				System.out.println("9: Exit");
+				System.out.println("9. Make Surgery Appointment");
+				System.out.println();
+				System.out.println("-1: Exit");
 				System.out.println("Your option: ");
 
 				option = scan.nextInt();
 
 				if (option < 0 || option > 8 ) {
 					System.out.println("Invalid Input");
+					System.out.println();
 					System.out.println("Enter the operation number");
 					System.out.println("1. Add Doctor");
 					System.out.println("2. Add Patient");
@@ -52,9 +55,11 @@ public class UI {
 					System.out.println("4. Get Prescription");
 					System.out.println("5. Check Schedule");
 					System.out.println("6. Give Prescription");
-					//System.out.println("7. Give Medicine");
-					System.out.println("7. Update Inventory");
-					System.out.println("8. Exit program");
+					System.out.println("7. Give Medicine");
+					System.out.println("8. Update Inventory");
+					System.out.println("9. Make Surgery Appointment");
+					System.out.println();
+					System.out.println("-1: Exit");
 					System.out.println("Your option: ");
 
 					option = scan.nextInt();
@@ -182,7 +187,9 @@ public class UI {
 					conn.updateInventory(myStmt,medId,newAmount);
 					break;
 					/*Exit program*/
-				case 0:
+				case 9:
+					break;
+				case -1:
 					System.out.println("Program end");
 					break;
 				}
