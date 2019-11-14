@@ -1,5 +1,6 @@
 package main.java;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.LinkedList;
 
@@ -19,8 +20,9 @@ public class HospitalController {
       java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
       /*just use this one for the myStmt*/
       Statement myStmt = myConn.createStatement();
+      Appointment app = new Appointment(1,"Ken Lee","Nick Ong",19971010,1800,"");
+      createAppointment(myStmt,app);
 
-      updateInventory(myStmt,1,50);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -226,13 +228,13 @@ public class HospitalController {
   public static void createAppointment(Statement myStmt, Appointment app) {
     try {
       /* the format will be: ("INSERT INTO mydb.[table name] ([first column], [second Column]) VALUES ('[value for first column]', '[value for second column]')");*/
-      String exeUpdate = "INSERT INTO mydb.appointments (appointmentId, patientName, doctorName, month, day, hour, minute, prescription) VALUES (";
-      myStmt.executeUpdate(exeUpdate + "'" + app.getID() + "'" + "," + "'" + app.getpatient_name() + "'" + "," + "'" + app.getdoctor_name() + "'" + "," + "'" + app.getMonth() + "'" + "," + "'" + app.getDay() + "'" + ","
-              + "'" + app.getHour() + "'" + "," + "'" + app.getMin() + "'" + "," + "'" + app.getprescription() + "'" +
+      String exeUpdate = "INSERT INTO mydb.appointments (appointmentId, patientName, doctorName, date,time, prescription) VALUES (";
+      myStmt.executeUpdate(exeUpdate + "'" + app.getID() + "'" + "," + "'" + app.getpatient_name() + "'" + "," + "'" + app.getdoctor_name() + "'" + "," + "'" + app.getDate() + "'" +  ","
+              + "'" + app.getTime()*100 + "'" + ","  + "'" + app.getprescription() + "'" +
               ")");
 
-      System.out.printf("Appointment Id: %s \t Patient name: %s \t Doctor Name: %s \t date: %d/%d \t time: %d%d \t prescription: %s" +
-              "\nhave successfully added into database", app.getID(), app.getpatient_name(), app.getdoctor_name(), app.getMonth(), app.getDay(), app.getHour(), app.getMin(), app.getprescription());
+      System.out.printf("Appointment Id: %s \t Patient name: %s \t Doctor Name: %s \t date(yyyymmdd): %d \t time(hhmmss): %d \t prescription: %s" +
+              "\nhave successfully added into database", app.getID(), app.getpatient_name(), app.getdoctor_name(), app.getDate(), app.getTime(), app.getprescription());
 
       if (isStringEntityExist(myStmt, "patients", "patientName", app.getpatient_name())) {
         System.out.printf("Patient Name: %s does not exist. Please create patient before making appointment", app.getpatient_name());
@@ -257,12 +259,12 @@ public class HospitalController {
       /*this is the command to patients table*/
       String sql = "select * from mydb.appointment";
       ResultSet rs = myStmt.executeQuery(sql); //Return the query based on the sql that is parsed
-      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Id", "Patient Name", "Doctor Id", "Doctor Name", "Date", "Time");
+      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Date", "Time",  "Prescription");
       /* while loop that prints everything from mydb.patients*/
       while (rs.next()) {
-        /*"Appointment id", "Patient Id", "Patient Name","Doctor Id", "Doctor Name", "Date", "Time" are the name of the column of the appointment table"*/
-        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", rs.getString("appointmentId"), rs.getString("patientId"),
-                rs.getString("patientName"), rs.getString("doctorId"), rs.getString("doctorName"), rs.getString("Date"), rs.getString("time"));
+        /*"Appointment id", "Patient Id", "Patient Name", "Doctor Name", "Date", "Time" are the name of the column of the appointment table"*/
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %n", rs.getString("appointmentId"),
+                rs.getString("patientName"), rs.getString("doctorName"), rs.getString("date"), rs.getString("time"),  rs.getString("prescription"));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -281,13 +283,12 @@ public class HospitalController {
       String sql = "select * from mydb.appointment where appointmentId = " + appointmentId;
 
       ResultSet rs = myStmt.executeQuery(sql); //Return the query based on the sql that is parsed
-      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Month", "Day", "Hour", "Minutes", "Prescription");
+      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Date", "Time",  "Prescription");
       /* while loop that prints everything from mydb.patients*/
       while (rs.next()) {
         /*"Appointment id", "Patient Name", "Doctor Name", "Month", "Day", "Hour","Minutes","Prescription" are the name of the column of the appointment table"*/
-        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", rs.getString("appointmentId"),
-                rs.getString("patientName"), rs.getString("doctorName"), rs.getString("month"), rs.getString("day"), rs.getString("hour")
-                , rs.getString("minute"), rs.getString("prescription"));
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %n", rs.getString("appointmentId"),
+                rs.getString("patientName"), rs.getString("doctorName"), rs.getString("date"), rs.getString("time"),  rs.getString("prescription"));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -343,13 +344,12 @@ public class HospitalController {
       ResultSet rs = myStmt.executeQuery(sql); //Return the query based on the sql that is parsed
 
 
-      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Month", "Day", "Hour", "Minutes", "Prescription");
+      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Date", "Time",  "Prescription");
       /* while loop that prints everything from mydb.patients*/
       while (rs.next()) {
         /*"Appointment id", "Patient Name", "Doctor Name", "Month", "Day", "Hour","Minutes","Prescription" are the name of the column of the appointment table"*/
-        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", rs.getString("appointmentId"),
-                rs.getString("patientName"), rs.getString("doctorName"), rs.getString("month"), rs.getString("day"), rs.getString("hour")
-                , rs.getString("minute"), rs.getString("prescription"));
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %n", rs.getString("appointmentId"),
+                rs.getString("patientName"), rs.getString("doctorName"), rs.getString("date"), rs.getString("time"),  rs.getString("prescription"));
       }
 
     } catch (Exception e) {
@@ -392,6 +392,91 @@ public class HospitalController {
       myStmt.executeUpdate(sql); //Return the query based on the sql that is parsed
 
       System.out.printf("Medicine Id: %s ,New Amount : %s has successfully updated!", medId, newAmount);
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+//need to check
+  /**
+   * add patient to emergency ward, if patient does not exist, it will create a new patient
+   * return false if doctorName and emergID does not exist
+   *
+   * @param myStmt
+   * @param p
+   * @param doctorName
+   * @param emergId
+   * */
+  public static void addPatientToEmerg(Statement myStmt,Patient p,String doctorName,int emergId){
+    if(!isStringEntityExist(myStmt, "emergency_ward","emergId",Integer.toString(emergId))){
+      System.out.printf("Emergency id : %d not found", emergId);
+      return;
+    }
+    if(!isStringEntityExist(myStmt, "emergency_ward","doctorName",doctorName)){
+      System.out.printf("Doctor Name : %s not found", doctorName);
+      return;
+    }
+    if(!isStringEntityExist(myStmt, "patients","patientName",p.getName())){
+      createPatient(myStmt, p);
+    }
+    try {
+      /*this is the command to appointment table and retrieve all entities with doctor name*/
+      String exeUpdate = "INSERT INTO mydb.emergency_ward (emergencyId, patientName, doctorName) VALUES (";
+      myStmt.executeUpdate(exeUpdate + "'" + emergId + "'" + "," + "'" + p.getName() + "'" + "," + "'" + doctorName + "'"+
+              ")");
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  //need to check
+  public static void movePatientFromEmergToWard(Statement myStmt, Patient p, EmergencyWard emerg,int wardId){
+    try {
+      /*this is the command to appointment table and retrieve all entities with doctor name*/
+      String exeUpdate = "INSERT INTO mydb.emergency_ward (emergencyId, patientName, doctorName) VALUES (";
+      myStmt.executeUpdate(exeUpdate + "'" + emerg.getEmergId() + "'" + "," + "'" + p.getName() + "'" + "," + "'" + emerg.getdName() + "'"+
+              ")");
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  //need to check
+  public static void movePatientFromEmergToSurg(Statement myStmt, Patient p, EmergencyWard emerg,int surg){
+    try {
+      /*this is the command to appointment table and retrieve all entities with doctor name*/
+      String exeUpdate = "INSERT INTO mydb.emergency_ward (emergencyId, patientName, doctorName) VALUES (";
+      myStmt.executeUpdate(exeUpdate + "'" + emerg.getEmergId() + "'" + "," + "'" + p.getName() + "'" + "," + "'" + emerg.getdName() + "'"+
+              ")");
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void addPatientToWard(Statement myStmt, Patient p,String dName, int wardId){
+    try {
+      /*this is the command to appointment table and retrieve all entities with doctor name*/
+      String exeUpdate = "INSERT INTO mydb.emergency_ward (emergencyId, patientName, doctorName) VALUES (";
+      myStmt.executeUpdate(exeUpdate + "'" +wardId + "'" + "," + "'" + p.getName() + "'" + "," + "'" + dName + "'"+
+              ")");
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void deletePatientFromWard(Statement myStmt, Patient p,String dName, int wardId){
+    try {
+      /*this is the command to appointment table and retrieve all entities with doctor name*/
+      String exeUpdate = "INSERT INTO mydb.emergency_ward (emergencyId, patientName, doctorName) VALUES (";
+      myStmt.executeUpdate(exeUpdate + "'" +wardId + "'" + "," + "'" + p.getName() + "'" + "," + "'" + dName + "'"+
+              ")");
 
 
     } catch (Exception e) {

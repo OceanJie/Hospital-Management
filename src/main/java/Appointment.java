@@ -4,10 +4,8 @@ public class Appointment {
 	String patient_name;
 	String doctor_name;
 	String prescription;
-	int hour;
-	int min;
-	int day;
-	int month;
+	int date;
+	int time;
 	int app_id;
 	/*
 	 *Appointment class
@@ -20,14 +18,13 @@ public class Appointment {
 		app_id = id;
 	}
 
-	public Appointment(int app_id, String patient_name, String doctor_name, int month, int day, int hour,int min, String prescription) {
+	public Appointment(int app_id, String patient_name, String doctor_name, int date, int time, String prescription) {
 		this.app_id = app_id;
 		this.patient_name = patient_name;
 		this.doctor_name = doctor_name;
-		this.hour = hour;
-		this.min = min;
-		this.day = day;
-		this.month = month;
+		this.date = date;
+		this.time = time;
+
 		this.prescription = prescription;
 	}
 
@@ -66,13 +63,9 @@ public class Appointment {
 		return app_id;
 	}
 
-	public int getHour(){return hour;}
+	public int getDate(){return date;}
 
-	public int getMin(){return min;}
+	public int getTime(){return time;}
 
-	public int getMonth() {
-		return month;
-	}
 
-	public int getDay(){return day;}
 }

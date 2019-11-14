@@ -112,19 +112,18 @@ public class UI {
 						break;
 					}
 
-					System.out.println("Enter the Month of appointment (Ex: 12): ");
-					int month = scan.nextInt();
-					System.out.println("Enter the day of the appointment (Ex: 30)");
-					int day = scan.nextInt();
-					System.out.println("Enter the hour (24-hr format): ");
-					int hours = scan.nextInt();
-					System.out.println("Enter the minute: ");
-					int minutes = scan.nextInt();
+					System.out.println("Enter the date of appointment (yyyymmdd): ");
+					int date = scan.nextInt();
+
+					System.out.println("Enter the time (24-hr format hhmm): ");
+					int time = scan.nextInt();
+					time*=100;
+
 					/*check if the date and time are valid or not*/
-					if(day<1||day>31 ||month>12||month<1 || hours < 0 || hours > 24 || minutes > 60 || minutes < 0) {
-						System.out.println("Invalid Date and time, Please use 24 hours format. E.g Hours: 24 Minutes: 30. Please make sure the date and time is valid. ");
-						break;
-					}
+//					if(day<1||day>31 ||month>12||month<1 || hours < 0 || hours > 24 || minutes > 60 || minutes < 0) {
+//						System.out.println("Invalid Date and time, Please use 24 hours format. E.g Hours: 24 Minutes: 30. Please make sure the date and time is valid. ");
+//						break;
+//					}
 
 					System.out.println("Enter the First name of the doctor: No space in between");
 					String doctorFirstName_case3 = scan.next();
@@ -140,7 +139,7 @@ public class UI {
 					String prescrip = "";
 					//
 
-					Appointment app = new Appointment(appId,patientName_case3,doctorName_case3,month,day,hours,minutes,prescrip);
+					Appointment app = new Appointment(appId,patientName_case3,doctorName_case3,date,time,prescrip);
 					conn.createAppointment(myStmt,app);
 
 					break;
@@ -191,12 +190,13 @@ public class UI {
 					break;
 				case -1:
 					System.out.println("Program end");
+					scan.close();
 					break;
 				}
 				Thread.sleep(2000);
-				scan.close();
+
 			}
-			while(option!=0);
+			while(option!=-1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
