@@ -39,13 +39,14 @@ public class UI {
 				System.out.println("7. Give Medicine");
 				System.out.println("8. Update Inventory");
 				System.out.println("9. Make Surgery Appointment");
+				System.out.println("10. Pay an Employee");
 				System.out.println();
 				System.out.println("-1: Exit");
 				System.out.println("Your option: ");
 
 				option = scan.nextInt();
 
-				if (option < 0 || option > 8 ) {
+				if (option < 0 || option > 11 ) {
 					System.out.println("Invalid Input");
 					System.out.println();
 					System.out.println("Enter the operation number");
@@ -58,6 +59,7 @@ public class UI {
 					System.out.println("7. Give Medicine");
 					System.out.println("8. Update Inventory");
 					System.out.println("9. Make Surgery Appointment");
+					System.out.println("10. Pay an Employee");
 					System.out.println();
 					System.out.println("-1: Exit");
 					System.out.println("Your option: ");
@@ -120,10 +122,10 @@ public class UI {
 					time*=100;
 
 					/*check if the date and time are valid or not*/
-//					if(day<1||day>31 ||month>12||month<1 || hours < 0 || hours > 24 || minutes > 60 || minutes < 0) {
-//						System.out.println("Invalid Date and time, Please use 24 hours format. E.g Hours: 24 Minutes: 30. Please make sure the date and time is valid. ");
-//						break;
-//					}
+					//					if(day<1||day>31 ||month>12||month<1 || hours < 0 || hours > 24 || minutes > 60 || minutes < 0) {
+					//						System.out.println("Invalid Date and time, Please use 24 hours format. E.g Hours: 24 Minutes: 30. Please make sure the date and time is valid. ");
+					//						break;
+					//					}
 
 					System.out.println("Enter the First name of the doctor: No space in between");
 					String doctorFirstName_case3 = scan.next();

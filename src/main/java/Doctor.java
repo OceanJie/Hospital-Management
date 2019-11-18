@@ -9,12 +9,18 @@ public class Doctor {
 
 	private String doctor_name;
 	private String id;
+	private Salary salary;
 
 	public Doctor(String name)
 	{
-		doctor_name = name;
+		this("0", name, 0);
 	}
 
+	public Doctor(String id, String name, double salary) {
+		doctor_name = name;
+		this.salary = new Salary(salary, 0);
+	}
+	
 	public Doctor(String id, String name) {
 		this.id = id;
 		doctor_name = name;
@@ -28,5 +34,28 @@ public class Doctor {
 	{
 		return doctor_name;
 	}
+	
+	public Salary getSalary() {
+		return salary;
+	}
+	
+	public boolean setSalary(double newSalary) {
+		if(newSalary <= 0) 
+			return false;
+		else {
+			salary.setSalary(newSalary);
+			return true;	
+		}
+	}
+	
+	public boolean setBonus(double newBonus) {
+		if(newBonus <= 0) 
+			return false;
+		else {
+			salary.setBonus(newBonus);
+			return true;
+		}
+	}
+	
 	public String getId(){return id;}
 }
