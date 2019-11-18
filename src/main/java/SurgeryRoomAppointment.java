@@ -11,7 +11,7 @@ public class SurgeryRoomAppointment {
 	private SurgeryRoom room;
 	private Surgeon surgeon;
 	private Patient patient;
-	private Nurse[] nurses;
+	private Nurse[] nurses = new Nurse[3];
 	
 	public SurgeryRoomAppointment(int startTime, int hoursOfUse, Patient patient, Surgeon surgeon, Nurse[] nurses) {
 		this.surgeon = surgeon;
@@ -34,6 +34,9 @@ public class SurgeryRoomAppointment {
 	
 	public Nurse[] getNurses() {
 		return nurses;
+	}
+	public String getNurseName(int nurseAdd){
+		return nurses[nurseAdd].getName();
 	}
 	
 	private int getARoomID() {

@@ -9,48 +9,25 @@ import java.util.List;
  */
 public class Admin {
 
-	private List<Patient> listofPatient;
-	private List<Doctor> listofDoctor;
-	
-	public Admin() {
-		listofPatient = new ArrayList<>();
-		listofDoctor = new ArrayList<>();
+	private int adminId;
+	private String adminName;
+	private String adminPassword;
+
+	public Admin(int adminId, String adminName, String adminPassword){
+		this.adminId = adminId;
+		this.adminName =adminPassword;
+		this.adminPassword = adminPassword;
+	}
+	public int getAdminId() {
+		return adminId;
 	}
 
-	/**
-	 * return true when successfully added a new doctor obj into the ArrayList
-	 * return false when doctor already exist
-	 * @param doctor_name
-	 * @return boolean
-	 */
-	public boolean addDoctor(String doctor_name) {
-		Doctor doc = new Doctor (doctor_name);
-		if(listofDoctor.indexOf(doc)== -1) {
-			System.out.println(doctor_name+" already exist");
-			return false;
-		}
-		else{
-			listofDoctor.add(doc);
-		}
-		return true;
+	public String getAdminName() {
+		return adminName;
 	}
 
-	/**
-	 * return true when successfully added a new patient obj into the ArrayList
-	 * return false when patient already exist
-	 * @param patient_name
-	 * @return boolean
-	 */
-	public boolean addPatient(String patient_name) {
-		Patient p = new Patient (patient_name);
-
-		if(listofPatient.indexOf(p)== -1) {
-			System.out.println(patient_name+" already exist");
-			return false;
-		}
-		else{
-			listofPatient.add(p);
-		}
-		return true;
+	public String getAdminPassword() {
+		return adminPassword;
 	}
 }
+
