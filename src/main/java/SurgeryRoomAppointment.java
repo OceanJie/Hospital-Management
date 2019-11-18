@@ -13,11 +13,11 @@ public class SurgeryRoomAppointment {
 	private Patient patient;
 	private Nurse[] nurses = new Nurse[3];
 	
-	public SurgeryRoomAppointment(int startTime, int hoursOfUse, Patient patient, Surgeon surgeon, Nurse[] nurses) {
+	public SurgeryRoomAppointment(int startTime, int hoursOfUse, Patient patient, Surgeon surgeon, Nurse[] nurses, int roomID) {
 		this.surgeon = surgeon;
 		this.patient = patient;
 		this.nurses = nurses;
-		room = new SurgeryRoom(getARoomID(), startTime, hoursOfUse, patient, surgeon, nurses);
+		room = new SurgeryRoom(roomID, startTime, hoursOfUse, patient, surgeon, nurses);
 	}
 	
 	public Patient getPatient() {
@@ -39,8 +39,7 @@ public class SurgeryRoomAppointment {
 		return nurses[nurseAdd].getName();
 	}
 	
-	private int getARoomID() {
-		//TODO retrieve from db maybe instead of a list
-		return 0;
+	public int getRoomID() {
+		return room.getID();
 	}
 }

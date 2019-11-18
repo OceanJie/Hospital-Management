@@ -2,8 +2,12 @@ package main.java;
 
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
-
+/**
+ * @author Sheng Jie Ooi
+ * controller method for hospital management
+ * */
 public class HospitalController {
+
 
   /**
    * Test case for the method
@@ -27,6 +31,11 @@ public class HospitalController {
       e.printStackTrace();
     }
   }
+  /**
+   * get all entity from mySQL table based on tableName
+   * @param myStmt
+   * @param tableName
+   * */
 public static void getAllFromTable(Statement myStmt, String tableName) {
   try {
     /*this is the command to doctors table*/
@@ -595,4 +604,6 @@ public static void getAllFromTable(Statement myStmt, String tableName) {
       e.printStackTrace();
     }
   }
+
+
 }
