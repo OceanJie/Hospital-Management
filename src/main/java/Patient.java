@@ -13,13 +13,15 @@ public class Patient {
 	private String id;
 	private Appointment ap;
 	private String sickness;
+	private String bloodType;
+
 
 	public Patient(String id, String name) {
 		this.id = id;
 		this.name = name;
 		sickness = "NONE";
 	}
-	
+
 	public Patient(String name) {
 		this("0", name);
 	}
@@ -32,16 +34,16 @@ public class Patient {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Get the sickness of this patient
-	 * 
+	 *
 	 * @return The sickness of this patient
 	 */
 	public String getSickness() {
 		return sickness;
 	}
-	
+
 	/**
 	 * Sets the sickness of this patient
 	 * @param sickness Patient's sickness
@@ -49,10 +51,10 @@ public class Patient {
 	public void setSickness(String sickness) {
 		this.sickness = sickness;
 	}
-	
+
 	/**
 	 * Gets the ID of this patient
-	 * 
+	 *
 	 * @return ID of this patient
 	 */
 	public String getID() {
@@ -88,26 +90,23 @@ public class Patient {
 
 	/**
 	 * Adding this patient's appointment time to the list
-	 * 
-	 * @param day - Name of the days (Ex: Monday)
+	 *
+	 * Pre-req: Every month only has 30 days (regardless if it's Feb or any other month that has 31 days)
+	 *
+	 * @param date - Name of the days (Ex: 30)
 	 * @param hours - The hour of the appointment time in 24-hr format
 	 * @param minutes - The minute of the appointment time
-	 * @param doctorName - The desired doctor's name
+	* @param surgeon
 	 * @return True if making an appointment is successful, false otherwise
 	 */
-	public boolean reqAppointment(String day, int hours, int minutes, String doctorName) {
-		if(day == null || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
+	public boolean reqSurgeryAppointment(int sraID, int date, int hours, int minutes, Surgeon surgeon, Nurse nurse, int roomID) {
+		if(date < 1 || date > 31 || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
 			return false;
-		
-		if(day.equalsIgnoreCase("Monday") || day.equalsIgnoreCase("Tuesday") || day.equalsIgnoreCase("Wednesday") || day.equalsIgnoreCase("Thursday") ||
-				day.equalsIgnoreCase("Friday") || day.equalsIgnoreCase("Saturday") || day.equalsIgnoreCase("Sunday")) {
-			Receptionist rec = new Receptionist();				
-			return rec.setAppointment();
-		} else {
-			return false;
-		}
+
+		Receptionist rec = new Receptionist();
+		return rec.setSurgeryAppointment(this, surgeon, sraID, hours, nurse, roomID);
 	}
-	
+
 	/**
 	 * Adding this patient's appointment time to the list
 	 *
@@ -115,5 +114,15 @@ public class Patient {
 	 */
 	public String getPrescription() {
 		return ap.getprescription();
+	}
+
+	public String getbloodType()
+	{
+		return bloodType;
+	}
+
+	public void setBloodType(String bloodType)
+	{
+		this.bloodType = bloodType;
 	}
 }

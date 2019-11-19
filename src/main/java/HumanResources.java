@@ -5,21 +5,21 @@ public class HumanResources {
 
 	}
 
-	public boolean payEmployee(Doctor name, int hoursWorked, int payRate) {
-		
-		name.setSalary(hoursWorked * payRate);
-
-		return true;
-	}
-
-	public boolean payEmployee(Nurse name, int hoursWorked, int payRate) {
+	public boolean payEmployee(Doctor name, int hoursWorked, double payRate) {
 
 		name.setSalary(hoursWorked * payRate);
 
 		return true;
 	}
 
-	public boolean payEmployee(Surgeon name, int hoursWorked, int payRate) {
+	public boolean payEmployee(Nurse name, int hoursWorked, double payRate) {
+
+		name.setSalary(hoursWorked * payRate);
+
+		return true;
+	}
+
+	public boolean payEmployee(Surgeon name, int hoursWorked, double payRate) {
 
 		name.setSalary(hoursWorked * payRate);
 

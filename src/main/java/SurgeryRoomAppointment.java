@@ -2,7 +2,7 @@ package main.java;
 
 /**
  * Appointment class specifically for surgery rooms
- * 
+ *
  * @author Nicholas Ong
  * @version 1.0
  */
@@ -11,34 +11,37 @@ public class SurgeryRoomAppointment {
 	private SurgeryRoom room;
 	private Surgeon surgeon;
 	private Patient patient;
-	private Nurse[] nurses = new Nurse[3];
-	
-	public SurgeryRoomAppointment(int startTime, int hoursOfUse, Patient patient, Surgeon surgeon, Nurse[] nurses, int roomID) {
+	private Nurse nurse;
+	private int ID;
+
+	public SurgeryRoomAppointment(int ID, int startTime, Patient patient, Surgeon surgeon, Nurse nurse, int roomID) {
 		this.surgeon = surgeon;
 		this.patient = patient;
-		this.nurses = nurses;
-		room = new SurgeryRoom(roomID, startTime, hoursOfUse, patient, surgeon, nurses);
+		this.nurse = nurse;
+		this.ID = ID;
+		room = new SurgeryRoom(roomID, startTime, patient, surgeon, nurse);
 	}
-	
+
+	public int getID() {
+		return ID;
+	}
+
 	public Patient getPatient() {
 		return patient;
 	}
-	
+
 	public SurgeryRoom getSurgeryRoom() {
 		return room;
 	}
-	
+
 	public Surgeon getSurgeon() {
 		return surgeon;
 	}
-	
-	public Nurse[] getNurses() {
-		return nurses;
+
+	public Nurse getNurse() {
+		return nurse;
 	}
-	public String getNurseName(int nurseAdd){
-		return nurses[nurseAdd].getName();
-	}
-	
+
 	public int getRoomID() {
 		return room.getID();
 	}
