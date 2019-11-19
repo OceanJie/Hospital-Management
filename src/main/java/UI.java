@@ -18,7 +18,7 @@ public class UI {
 		/*Connecting to the local server*/
 		String url = "jdbc:mysql://localhost:3306/mydb?useSSL=false";
 		String user = "root";
-		String password = "bhy963bhy963";
+		String password = "1234";
 		HospitalController conn = new HospitalController();
 		int option = 0;
 
@@ -45,18 +45,14 @@ public class UI {
 				System.out.println("10. Pay an Employee");
 				System.out.println("11. BloodTest");
 				System.out.println();
-				System.out.println("100: Exit");
+				System.out.println("-1: Exit");
 				System.out.println("Your option: ");
 
 				option = scan.nextInt();
 				
-				if(option == 100) {
-					System.out.println("Program end");
-					System.exit(0);
-					scan.close();
-				}
 
-				if (option < 0 || option > 11) {
+
+				if (option < -1||option==0 || option > 11) {
 					System.out.println("Invalid Input");
 					System.out.println();
 					System.out.println("Enter the operation number");
@@ -72,7 +68,7 @@ public class UI {
 					System.out.println("10. Pay an Employee");
 					System.out.println("11. BloodTest");
 					System.out.println();
-					System.out.println("100: Exit");
+					System.out.println("-1: Exit");
 					System.out.println("Your option: ");
 
 					option = scan.nextInt();
