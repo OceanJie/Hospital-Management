@@ -9,6 +9,7 @@ import java.sql.*;
 public class HospitalController {
 
 
+
   /**
    * Test case for the method
    */
@@ -660,3 +661,4 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
   }
 
 }
+

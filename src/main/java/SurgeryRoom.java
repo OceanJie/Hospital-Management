@@ -19,7 +19,7 @@ public class SurgeryRoom {
 	 *
 	 * @param ID - Room ID
 	 * @param startTime - The starting time (24 hrs format) of the room's usage
-	 * @param hoursOfUse - The number of hours that this room will be occupied
+	 * @param nurse
 	 * @param patient - The patient that will undergo surgery
 	 * @param surgeon - The surgeon that will perform surgery
 	 */
@@ -38,6 +38,7 @@ public class SurgeryRoom {
 	public int getStartTime() {
 		return startTime;
 	}
+
 
 	public Patient getPatient() {
 		return patient;

@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.18, for macos10.14 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mydb
 -- ------------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE `patients` (
 
 LOCK TABLES `patients` WRITE;
 /*!40000 ALTER TABLE `patients` DISABLE KEYS */;
-INSERT INTO `patients` VALUES (3,'Ken Lee'),(2342,'zxc qwe');
+INSERT INTO `patients` VALUES (3,'Ken Lee'),(5,'Osle Lse'),(2342,'Popoe Lei');
 /*!40000 ALTER TABLE `patients` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-16  0:38:18
+-- Dump completed on 2019-11-19 11:09:43

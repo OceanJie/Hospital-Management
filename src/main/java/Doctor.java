@@ -23,7 +23,9 @@ public class Doctor {
 	
 	public Doctor(String id, String name) {
 		this(id, name, 0);
+
 }
+
 
 	public Doctor(String name, double salary) {
 		this("0", name, salary);
