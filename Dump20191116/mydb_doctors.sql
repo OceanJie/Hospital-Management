@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.18, for macos10.14 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mydb
 -- ------------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE `doctors` (
 
 LOCK TABLES `doctors` WRITE;
 /*!40000 ALTER TABLE `doctors` DISABLE KEYS */;
-INSERT INTO `doctors` VALUES ('','ShengJieOoi'),('1','Lee'),('123','Adam'),('1233','John'),('1234','Sheng Jie'),('133','Kimmy Ke'),('444','Kim Jung'),('473','Monster Energy'),('66','Nick Ong'),('6789','asd qwe'),('99','Lol lel');
+INSERT INTO `doctors` VALUES ('','ShengJieOoi'),('1','Lee'),('123','Adam'),('1233','John'),('1234','Sheng Jie'),('133','Kimmy Ke'),('444','Kim Jung'),('473','Monster Energy'),('66','Nick Ong'),('6789','asd qwe'),('99','Lol lel'),('null','Poe Oek');
 /*!40000 ALTER TABLE `doctors` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-16  0:38:17
+-- Dump completed on 2019-11-19 11:09:44

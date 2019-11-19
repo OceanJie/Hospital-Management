@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.18, for macos10.14 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mydb
 -- ------------------------------------------------------
@@ -27,10 +27,8 @@ CREATE TABLE `surgeryapp` (
   `patientName` varchar(45) DEFAULT NULL,
   `surgeonName` varchar(45) DEFAULT NULL,
   `nurseName` varchar(45) DEFAULT NULL,
-  `nurseName2` varchar(45) DEFAULT NULL,
-  `nurseName3` varchar(45) DEFAULT NULL,
-  `startTime` time DEFAULT NULL,
-  `hourOfUse` int(11) DEFAULT NULL,
+  `startTime` int(11) DEFAULT NULL,
+  `roomID` int(11) DEFAULT NULL,
   PRIMARY KEY (`surgAppId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,6 +39,7 @@ CREATE TABLE `surgeryapp` (
 
 LOCK TABLES `surgeryapp` WRITE;
 /*!40000 ALTER TABLE `surgeryapp` DISABLE KEYS */;
+INSERT INTO `surgeryapp` VALUES (1,'Ken Lee','Nick Wer','Pui Doe',10,10),(2,'Osle Lse','Poppie Ead','Lili Lala',12,1),(3,'Osle Lse','Nick Wer','Pui Doe',10,4);
 /*!40000 ALTER TABLE `surgeryapp` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-16  0:38:18
+-- Dump completed on 2019-11-19 11:09:43
