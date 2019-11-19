@@ -89,23 +89,20 @@ public class Patient {
 	/**
 	 * Adding this patient's appointment time to the list
 	 * 
-	 * @param day - Name of the days (Ex: Monday)
+	 * Pre-req: Every month only has 30 days (regardless if it's Feb or any other month that has 31 days)
+	 * 
+	 * @param date - Name of the days (Ex: 30)
 	 * @param hours - The hour of the appointment time in 24-hr format
 	 * @param minutes - The minute of the appointment time
-	 * @param doctorName - The desired doctor's name
+	 * @param surgeonName - The desired doctor's name
 	 * @return True if making an appointment is successful, false otherwise
 	 */
-	public boolean reqAppointment(String day, int hours, int minutes, String doctorName) {
-		if(day == null || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
+	public boolean reqSurgeryAppointment(int sraID, int date, int hours, int minutes, Surgeon surgeon, Nurse nurse, int roomID) {
+		if(date < 1 || date > 31 || hours < 0 || hours > 24 || minutes > 60 || minutes < 0)
 			return false;
-		
-		if(day.equalsIgnoreCase("Monday") || day.equalsIgnoreCase("Tuesday") || day.equalsIgnoreCase("Wednesday") || day.equalsIgnoreCase("Thursday") ||
-				day.equalsIgnoreCase("Friday") || day.equalsIgnoreCase("Saturday") || day.equalsIgnoreCase("Sunday")) {
-			Receptionist rec = new Receptionist();				
-			return rec.setAppointment();
-		} else {
-			return false;
-		}
+
+		Receptionist rec = new Receptionist();				
+		return rec.setSurgeryAppointment(this, surgeon, sraID, hours, nurse, roomID);
 	}
 	
 	/**

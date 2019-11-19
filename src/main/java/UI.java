@@ -11,11 +11,14 @@ import java.util.Scanner;
  * @author Sheng-Jie 
  */
 public class UI {
+	
+	public static Statement myStmt;
+	
 	public static void main(String[] args) {
 		/*Connecting to the local server*/
 		String url = "jdbc:mysql://localhost:3306/mydb?useSSL=false";
 		String user = "root";
-		String password = "1234";
+		String password = "bhy963bhy963";
 		HospitalController conn = new HospitalController();
 		int option = 0;
 
@@ -24,7 +27,7 @@ public class UI {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
 			/*just use this one for the myStmt*/
-			Statement myStmt = myConn.createStatement();
+			myStmt = myConn.createStatement();
 
 			Scanner scan = new Scanner(System.in);
 			do{
@@ -41,12 +44,18 @@ public class UI {
 				System.out.println("9. Make Surgery Appointment");
 				System.out.println("10. Pay an Employee");
 				System.out.println();
-				System.out.println("-1: Exit");
+				System.out.println("100: Exit");
 				System.out.println("Your option: ");
 
 				option = scan.nextInt();
+				
+				if(option == 100) {
+					System.out.println("Program end");
+					System.exit(0);
+					scan.close();
+				}
 
-				if (option < 0 || option > 11 ) {
+				if (option < 0 || option > 11) {
 					System.out.println("Invalid Input");
 					System.out.println();
 					System.out.println("Enter the operation number");
@@ -61,7 +70,7 @@ public class UI {
 					System.out.println("9. Make Surgery Appointment");
 					System.out.println("10. Pay an Employee");
 					System.out.println();
-					System.out.println("-1: Exit");
+					System.out.println("100: Exit");
 					System.out.println("Your option: ");
 
 					option = scan.nextInt();
@@ -187,11 +196,102 @@ public class UI {
 					int newAmount = scan.nextInt();
 					conn.updateInventory(myStmt,medId,newAmount);
 					break;
-					/*Exit program*/
 				case 9:
+					System.out.println("Enter the surgery appointment ID: ");
+					int saID = scan.nextInt();
+					System.out.println("Enter the patient's First name: No space in between");
+					String patientFN = scan.next();
+					System.out.println("Enter the patient's Last Name: No space in between");
+					String patientLN = scan.next();
+					String patientN = patientFN + " " + patientLN;
+					System.out.println("Enter the patient's ID: ");
+					String pID = scan.next();
+					/*check if patient exist or not, require to create new patient before proceeding to make appointment*/
+					if (!HospitalController.isPatientExist(myStmt, patientN)){
+						System.out.printf("Patient Name: %s does not exist. Please create a new patient before making appointment or use a existing patient ", patientN);
+						break;
+					}
+					System.out.println("Enter the date: ");
+					int sraDate = scan.nextInt();
+					System.out.println("Enter the time (hour): ");
+					int sraHour = scan.nextInt();
+					System.out.println("Enter the time (minute): ");
+					int sraMin = scan.nextInt();
+					System.out.println("Enter the room ID: ");
+					int roomID = scan.nextInt();
+					System.out.println("Enter the First name of the surgeon: No space in between");
+					String surgeonFN = scan.next();
+					System.out.println("Enter the last name of the surgeon: No space in between");
+					String surgeonLN = scan.next();
+					String surgeonN = surgeonFN + " " + surgeonLN;
+					System.out.println("Enter the First name of the nurse: No space in between");
+					String nurseFN = scan.next();
+					System.out.println("Enter the last name of the nurse: No space in between");
+					String nurseLN = scan.next();
+					String nurseN = nurseFN + " " + nurseLN;
+					/*check  if doctor exist in the table*/
+					if(!HospitalController.isStringEntityExist(myStmt,"nurses","nurseName", nurseN)){
+						System.out.printf("Nurse Name: %s does not exist. Please create a new nurse before making a surgery appointment or use a existing nurse ", nurseN);
+						break;
+					}
+
+					Patient p = new Patient(pID, patientN);
+					Surgeon s = new Surgeon(surgeonN, 0);
+					Nurse n = new Nurse(nurseN, 0);
+					p.reqSurgeryAppointment(saID, sraDate, sraHour, sraMin, s, n, roomID);
 					break;
-				case -1:
+				case 10:
+					System.out.println("Enter the First name of the employee: No space in between");
+					String employeeFN = scan.next();
+					System.out.println("Enter the last name of the employee: No space in between");
+					String employeeLN = scan.next();
+					String employeeN = employeeFN + " " + employeeLN;
+					System.out.println("Enter the employee's amount of hours worked: ");
+					int hoursWorked = scan.nextInt();
+					System.out.println("Enter the employee's pay rate per hour: ");
+					double payRate = scan.nextDouble();
+					HumanResources hr = new HumanResources();
+					boolean paid = false;
+					
+					//When the employee is a nurse
+					if(HospitalController.isStringEntityExist(myStmt,"nurses","nurseName", employeeN)){
+						Nurse name = new Nurse(employeeN, 0);
+						paid = hr.payEmployee(name, hoursWorked, payRate);
+						if(paid)
+							System.out.printf("Employee Name: %s has been paid with the amount %.2f. \n", employeeN, (double)payRate * hoursWorked);
+						else
+							System.out.printf("Employee Name: %s has yet to be paid with the amount %.2f. \n", employeeN, payRate * hoursWorked);
+						break;
+					} 
+					
+					//When the employee is a doctor
+					if(HospitalController.isStringEntityExist(myStmt,"doctors","doctorName", employeeN)){
+						Doctor name = new Doctor(employeeN, 0);
+						paid = hr.payEmployee(name, hoursWorked, payRate);
+						if(paid)
+							System.out.printf("Employee Name: %s has been paid with the amount %.2f. \n", employeeN, payRate * hoursWorked);
+						else
+							System.out.printf("Employee Name: %s has yet to be paid with the amount %.2f. \n", employeeN, payRate * hoursWorked);
+						break;
+					} 
+					
+					//When the employee is a surgeon
+					if(HospitalController.isStringEntityExist(myStmt,"surgeons","surgeonName", employeeN)){
+						Surgeon name = new Surgeon(employeeN, 0);
+						paid = hr.payEmployee(name, hoursWorked, payRate);
+						if(paid)
+							System.out.printf("Employee Name: %s has been paid with the amount %.2f. \n", employeeN, payRate * hoursWorked);
+						else
+							System.out.printf("Employee Name: %s has yet to be paid with the amount %.2f. \n", employeeN, payRate * hoursWorked);
+						break;
+					} 
+					
+					System.out.printf("Employee: %s does not exist.", employeeN);
+					break;
+					/*Exit program*/
+				case 100:
 					System.out.println("Program end");
+					System.exit(0);
 					scan.close();
 					break;
 				}

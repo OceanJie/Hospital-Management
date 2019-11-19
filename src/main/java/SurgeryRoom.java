@@ -10,10 +10,9 @@ public class SurgeryRoom {
 	
 	private int ID;
 	private int startTime;
-	private int hoursOfUse;
 	private Patient patient;
 	private Surgeon surgeon;
-	private Nurse[] nurses;
+	private Nurse nurse;
 	
 	/**
 	 * Constructor 
@@ -24,13 +23,12 @@ public class SurgeryRoom {
 	 * @param patient - The patient that will undergo surgery
 	 * @param surgeon - The surgeon that will perform surgery
 	 */
-	public SurgeryRoom(int ID, int startTime, int hoursOfUse, Patient patient, Surgeon surgeon, Nurse[] nurses) {
+	public SurgeryRoom(int ID, int startTime, Patient patient, Surgeon surgeon, Nurse nurse) {
 		this.ID = ID;
 		this.startTime = startTime;
-		this.hoursOfUse = hoursOfUse;
 		this.patient = patient;
 		this.surgeon = surgeon;
-		this.nurses = nurses;
+		this.nurse = nurse;
 	}
 	
 	public int getID() {
@@ -41,10 +39,6 @@ public class SurgeryRoom {
 		return startTime;
 	}
 	
-	public int getHoursOfUse() {
-		return hoursOfUse;
-	}
-	
 	public Patient getPatient() {
 		return patient;
 	}
@@ -53,8 +47,8 @@ public class SurgeryRoom {
 		return surgeon;
 	}
 	
-	public Nurse[] getNurses() {
-		return nurses;
+	public Nurse getNurse() {
+		return nurse;
 	}
 	
 	/**
@@ -64,7 +58,7 @@ public class SurgeryRoom {
 	 */
 	public boolean retrieveTools() {
 		Inventory inventory = new Inventory();
-		//TODO 
-		return false;
+		//TODO waiting for inventory's class to have tools, for now just return true
+		return true;
 	}
 }
