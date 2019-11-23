@@ -231,9 +231,9 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
       String a = String.valueOf(rs.next());
       if (a.equals("false")) {
         System.out.printf("input: %s not exist", inputColString);
-
+        return "";
       }
-      return a;
+      return rs.getString(desireCol);
     } catch (SQLException e) {
 
       e.printStackTrace();
@@ -522,41 +522,49 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
    * return false if doctorName and emergID does not exist
    *
    * @param myStmt
-   * @param p
+   * @param
    * @param doctorName
    * @param emergId
    * */
-  public static void addPatientToEmerg(Statement myStmt,Patient p,String doctorName,int emergId){
+  public static void addPatientToEmerg(Statement myStmt,String pName,String doctorName,int emergId){
     if(!isStringEntityExist(myStmt, "emergency_ward","emergId",Integer.toString(emergId))){
       System.out.printf("Emergency id : %d not found", emergId);
       return;
     }
-    if(!isStringEntityExist(myStmt, "emergency_ward","doctorName",doctorName)){
+    if(!isStringEntityExist(myStmt, "doctors","doctorName",doctorName)){
       System.out.printf("Doctor Name : %s not found", doctorName);
       return;
     }
-    if(!isStringEntityExist(myStmt, "patients","patientName",p.getName())){
-      createPatient(myStmt, p);
-    }
+
     try {
       /*this is the command to appointment table and retrieve all entities with doctor name*/
-      String exeUpdate = "INSERT INTO mydb.emergency_ward (emergencyId, patientName, doctorName) VALUES (";
-      myStmt.executeUpdate(exeUpdate + "'" + emergId + "'" + "," + "'" + p.getName() + "'" + "," + "'" + doctorName + "'"+
+
+      myStmt.executeUpdate("UPDATE mydb.emergency_ward SET patientName ='"+ pName+"' "+","+" doctorName = '"+doctorName+"'"+  " WHERE (emergId = '"+emergId+"'"+
               ")");
 
-
+      System.out.printf("Patient Name: %s, Doctor Name: %s has added into Emergency Ward %d",pName,doctorName,emergId);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
   //need to check
-  public static void movePatientFromEmergToWard(Statement myStmt, EmergencyWard emerg,int wardId){
+  public static void movePatientFromEmergToWard(Statement myStmt, int emergId,int wardId){
     try {
+      if(!isStringEntityExist(myStmt, "emergency_ward","emergId",Integer.toString(emergId))){
+        System.out.printf("Emergency id : %d not found", emergId);
+        return;
+      }
+      if(!isStringEntityExist(myStmt, "ward","wardId",Integer.toString(wardId))){
+        System.out.printf("Ward ID : %s not found", wardId);
+        return;
+      }
+      String patientName = getStringEntity(myStmt,"emergency_ward","patientName","emergId",Integer.toString(emergId));
+      String doctorName = getStringEntity(myStmt,"emergency_ward","doctorName","emergId",Integer.toString(emergId));
       /*this is the command to appointment table and retrieve all entities with doctor name*/
 
-      myStmt.executeUpdate("UPDATE mydb.ward SET patientName ='"+ emerg.getpName()+"'"+"doctorName = '"+emerg.getdName()+"'"+  "WHERE (emergId = '"+wardId+"'"+
+      myStmt.executeUpdate("UPDATE mydb.ward SET patientName ='"+ patientName+"' "+","+"doctorName = '"+doctorName+"'"+  " WHERE (wardId = '"+wardId+"'"+
               ")");
-      deletePatientFromTable(myStmt,"emergency_ward",emerg.getEmergId());
+      deletePatientFromTable(myStmt,"emergency_ward",emergId);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -564,17 +572,12 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
   }
   /**
    * @Test
+   * change the patient p to patient id as input,
    * */
-  public static void movePatientFromEmergToSurg(Statement myStmt, Patient p, SurgeryRoom surgeryRoom,int surgId){
+  public static void movePatientFromEmergToSurg(Statement myStmt, int emergId, SurgeryRoomAppointment app){
     try {
-      /*this is the command to appointment table and retrieve all entities with doctor name*/
-      myStmt.executeUpdate("UPDATE mydb.surgeryapp SET patientName ='"+ p.getName()+"'"+"surgeonName = '"+surgeryRoom.getSurgeon().getName()+"'"+
-              "nurseName = '"+surgeryRoom.getNurse()+"'"+
-              "WHERE (surgId = '"+surgId+"'"+
-              ")");
-
-
-
+      createSurgeryAppointment(myStmt, app);
+      deletePatientFromTable(myStmt,"emergency_ward",emergId);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -583,10 +586,10 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
 /**
  * add patient from appointment to ward
  * @param myStmt
- * @param app
+ * @param
  * @param wardId
  * */
-  public static void addPatientToWard(Statement myStmt,Appointment app, int wardId){
+  public static void addPatientToWard(Statement myStmt,int patientId, int doctorId,int wardId){
     //do the checking for if patient name exist
 //if(!isStringEntityExist(myStmt,"mydb.ward","patientName",null)){
 //  System.out.printf("ward Id: %d is already taken",wardId);
@@ -594,18 +597,25 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
 //}
     try {
       /*this is the command to appointment table and retrieve all entities with doctor name*/
+      if(!isStringEntityExist(myStmt, "patients","patientId",Integer.toString(patientId))){
+        System.out.printf("Patient id : %d not found", patientId);
+        return;
+      }
+      String patientName = getStringEntity(myStmt,"patients","patientName","patientId",Integer.toString(patientId));
+      String doctorName = getStringEntity(myStmt,"doctors","doctorName","doctorId",Integer.toString(doctorId));
+      String prescrip = getStringEntity(myStmt,"appointments","prescription","patientName",patientName);
       String exeUpdate = "UPDATE mydb.ward SET patientName = ";
-      myStmt.executeUpdate(exeUpdate + "'" + app.getpatient_name() + "'" + "," + "doctorName= '" + app.getdoctor_name() + "'" + "," +
-              "prescription = '"+app.getprescription()+ "' WHERE (wardId = '"+wardId+"'"+
+      myStmt.executeUpdate(exeUpdate + " '" + patientName + "' " + "," + "doctorName= '" + doctorName + "' " + "," +
+              "prescription = '"+prescrip+"' "+ " WHERE (wardId = '"+wardId+"'"+
               ")");
 
-      System.out.printf("Patient:%s has added to ward %d",app.getpatient_name(),wardId);
+      System.out.printf("Patient:%s has added to ward %d",patientName,wardId);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public static void deletePatientFromTable(Statement myStmt,String table,  int wardId){
+  public static void deletePatientFromTable(Statement myStmt,String table, int wardId){
     try {
       /*this is the command to appointment table and retrieve all entities with doctor name*/
       if(table=="emergency_ward"){
@@ -631,7 +641,7 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
       /* the format will be: ("INSERT INTO mydb.[table name] ([first column], [second Column]) VALUES ('[value for first column]', '[value for second column]')");*/
       String exeUpdate = "INSERT INTO mydb.surgeryapp (surgAppId, patientName, surgeonName, nurseName, startTime, roomID) VALUES (";
       myStmt.executeUpdate(exeUpdate + "'" + app.getID() + "'" + "," + "'" + app.getPatient().getName() + "'" + "," + "'" + app.getSurgeon().getName() + "'" + ","
-              + "'" + app.getNurse() + "'" +  "," + "'" + app.getSurgeryRoom().getStartTime() + "'" + ","  + "'" + app.getRoomID() + "'"  + ")");
+              + "'" + app.getNurse().getName() + "'" +  "," + "'" + app.getSurgeryRoom().getStartTime() + "'" + ","  + "'" + app.getRoomID() + "'"  + ")");
 
       System.out.printf("Appointment Id: %s \t Patient name: %s \t Surgeon Name: %s \t Nurse Name: %s \t Starting Time: %d \t Room ID: %d" +
               "\nhave successfully added into database", app.getID(), app.getPatient().getName(), app.getSurgeon().getName(), app.getNurse().getName(), app.getSurgeryRoom().getStartTime(), app.getRoomID());

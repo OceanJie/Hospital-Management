@@ -44,6 +44,10 @@ public class UI {
 				System.out.println("9. Make Surgery Appointment");
 				System.out.println("10. Pay an Employee");
 				System.out.println("11. BloodTest");
+				System.out.println("12. add patient to ward");
+				System.out.println("13. add patient to emergency");
+				System.out.println("14. Move patient from emergency ward to surgery room");
+				System.out.println("15. Move patient from emergency ward to ward");
 				System.out.println();
 				System.out.println("-1: Exit");
 				System.out.println("Your option: ");
@@ -52,7 +56,7 @@ public class UI {
 				
 
 
-				if (option < -1||option==0 || option > 11) {
+				if (option < -1||option==0 || option > 15) {
 					System.out.println("Invalid Input");
 					System.out.println();
 					System.out.println("Enter the operation number");
@@ -67,6 +71,10 @@ public class UI {
 					System.out.println("9. Make Surgery Appointment");
 					System.out.println("10. Pay an Employee");
 					System.out.println("11. BloodTest");
+					System.out.println("12. add patient to ward");
+					System.out.println("13. add patient to emergency");
+					System.out.println("14. Move patient from emergency ward to surgery room");
+					System.out.println("15. Move patient from emergency ward to ward");
 					System.out.println();
 					System.out.println("-1: Exit");
 					System.out.println("Your option: ");
@@ -317,8 +325,115 @@ public class UI {
 						String table_name = "patients";
 						conn.BloodTest(myStmt, table_name, pat_id);
 						break;
+					case 12:
+						System.out.println("Enter the appointment ID: ");
+						int appId12 = scan.nextInt();
+						if(!conn.isStringEntityExist(myStmt,"appointments","appointmentId",Integer.toString(appId12))){
+							System.out.printf("appointment id %d does not exist %n",appId12);
+							break;
+						}
+						String patientName_case12 = conn.getStringEntity(myStmt,"appointments","patientName","appointmentId",Integer.toString(appId12));
+						String patientId_case12 = conn.getStringEntity(myStmt,"patients","patientId","patientName",patientName_case12);
+						String docName = conn.getStringEntity(myStmt,"appointments","doctorName","appointmentId",Integer.toString(appId12));
+						String docId =conn.getStringEntity(myStmt,"doctors","doctorId","doctorName",docName); ;
 
 
+
+						System.out.println("Enter ward id");
+						int wardID12 = scan.nextInt();
+
+
+						conn.addPatientToWard(myStmt, Integer.parseInt(patientId_case12),Integer.parseInt(docId),wardID12);
+						break;
+					case 13:
+						System.out.println("Enter the patient's First name: No space in between");
+						String patientFirstName_case13 = scan.next();
+						System.out.println("Enter the patient's Last Name: No space in between");
+						String patientLastName_case13 = scan.next();
+						String patientName_case13 = patientFirstName_case13 + " " + patientLastName_case13;
+
+						System.out.println("Enter the doctor's First name: No space in between");
+						String docFirstName = scan.next();
+						System.out.println("Enter the doctor's Last Name");
+						String docLastName = scan.next();
+						String docName13 = docFirstName + " " + docLastName;
+
+
+						System.out.println("enter Emergency ward id");
+						int wardId = scan.nextInt();
+
+						conn.addPatientToEmerg(myStmt,patientName_case13,docName13,wardId);
+						break;
+					case 14:
+						System.out.println("Enter the Emergency ID: ");
+						int emergId14 = scan.nextInt();
+						System.out.println("Enter the Surgery appointment ID: ");
+						int appId14 = scan.nextInt();
+						System.out.println("Enter the Surgery room ID: ");
+						int surgRoomId14 = scan.nextInt();
+						String patientName_case14 = conn.getStringEntity(myStmt,"emergency_ward","patientName","emergId",Integer.toString(emergId14));
+						String patientId_case14 = conn.getStringEntity(myStmt,"patients","patientId","patientName",patientName_case14);
+						Patient p14 = new Patient(patientId_case14,patientName_case14);
+						/*check if patient exist or not, require to create new patient before proceeding to make appointment*/
+						if (!conn.isPatientExist(myStmt, patientName_case14)) {
+							System.out.printf("Patient Name: %s does not exist. Please create a new patient before making appointment or use a existing patient ", patientName_case14);
+							break;
+						}
+
+						System.out.println("Enter the date of appointment (yyyymmdd): ");
+						int date14 = scan.nextInt();
+
+						System.out.println("Enter the time (24-hr format hhmm): ");
+						int time14 = scan.nextInt();
+						time14 *= 100;
+						System.out.println("Enter the First name of the surgeon: No space in between");
+						String doctorFirstName_case14 = scan.next();
+						System.out.println("Enter the last name of the surgeon: No space in between");
+						String doctorLastName_case14 = scan.next();
+						String doctorName_case14 = doctorFirstName_case14 + " " + doctorLastName_case14;
+						/*check  if doctor exist in the table*/
+						if (!conn.isStringEntityExist(myStmt, "surgeons", "surgeonName", doctorName_case14)) {
+							System.out.printf("Surgeon Name: %s does not exist. Please create a new patient before making appointment or use a existing surgeon ", doctorName_case14);
+							break;
+						}
+						System.out.println("Enter the First name of the nurse: No space in between");
+						String nurseFN14 = scan.next();
+						System.out.println("Enter the last name of the nurse: No space in between");
+						String nurseLN14 = scan.next();
+						String nurseN14 = nurseFN14 + " " + nurseLN14;
+						if (!conn.isStringEntityExist(myStmt, "nurses", "nurseName", nurseN14)) {
+							System.out.printf("Nurse Name: %s does not exist. Please create a new nurse before making appointment or use a existing nurse %n", nurseN14);
+							break;
+						}
+						/*prescription not given yet so initialize it as null*/
+
+						String prescrip14 = "";
+						Nurse n14 = new Nurse(nurseN14,0,0);
+						Surgeon sur14 = new Surgeon (doctorName_case14,0,0);
+						//
+						System.out.println("Enter Surgery room id");
+						int wardID14 = scan.nextInt();
+						time14=time14/100;
+						SurgeryRoomAppointment app14 = new SurgeryRoomAppointment(appId14,time14,p14,sur14,n14,surgRoomId14);
+						System.out.println();
+						conn.movePatientFromEmergToSurg(myStmt,emergId14,app14);
+						break;
+					case 15:
+						System.out.println("Enter the Emergency ID: ");
+						int emergId15 = scan.nextInt();
+						String patientName_case15 = conn.getStringEntity(myStmt,"emergency_ward","patientName","emergId",Integer.toString(emergId15));
+						String patientId_case15 = conn.getStringEntity(myStmt,"patients","patientId","patientName",patientName_case15);
+
+						System.out.println("Enter the doctor's First name: No space in between");
+						String docFirstName15 = scan.next();
+						System.out.println("Enter the doctor's Last Name");
+						String docLastName15 = scan.next();
+						String docName15 = docFirstName15 + " " + docLastName15;
+
+						System.out.println("Enter Ward id that patient going move to");
+						int wardId15 = scan.nextInt();
+
+						conn.movePatientFromEmergToWard(myStmt,emergId15,wardId15);
 
 
 				}

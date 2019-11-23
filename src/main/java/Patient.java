@@ -90,7 +90,6 @@ public class Patient {
 
 	/**
 	 * Adding this patient's appointment time to the list
-<<<<<<< HEAD
 	 *
 	 * Pre-req: Every month only has 30 days (regardless if it's Feb or any other month that has 31 days)
 	 *
@@ -98,15 +97,7 @@ public class Patient {
 	 * @param hours - The hour of the appointment time in 24-hr format
 	 * @param minutes - The minute of the appointment time
 	* @param surgeon
-=======
-	 * 
-	 * Pre-req: Every month only has 30 days (regardless if it's Feb or any other month that has 31 days)
-	 * 
-	 * @param date - Name of the days (Ex: 30)
-	 * @param hours - The hour of the appointment time in 24-hr format
-	 * @param minutes - The minute of the appointment time
-	 * @param surgeonName - The desired doctor's name
->>>>>>> 299b1f67efca5fdd418b816959f0c18ae38fb0fb
+
 	 * @return True if making an appointment is successful, false otherwise
 	 */
 	public boolean reqSurgeryAppointment(int sraID, int date, int hours, int minutes, Surgeon surgeon, Nurse nurse, int roomID) {
