@@ -1,6 +1,12 @@
 package main.java;
 
+import main.java.staff.Doctor;
+import main.java.staff.HumanResources;
+import main.java.staff.Nurse;
+import main.java.staff.Surgeon;
+
 import java.sql.DriverManager;
+import java.sql.SQLOutput;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -32,22 +38,18 @@ public class UI {
 			Scanner scan = new Scanner(System.in);
 			do {
 				System.out.println();
+
 				System.out.println("Enter the operation number");
-				System.out.println("1. Login as Admin");
-				System.out.println("2. Add Patient");
-				System.out.println("3. Make Appointment");
-				System.out.println("4. Get Prescription");
-				System.out.println("5. Check Schedule");
-				System.out.println("6. Give Prescription");
-				System.out.println("7. Give Medicine");
-				System.out.println("8. Update Inventory");
-				System.out.println("9. Make Surgery Appointment");
-				System.out.println("10. Pay an Employee");
-				System.out.println("11. BloodTest");
-				System.out.println("12. add patient to ward");
-				System.out.println("13. add patient to emergency");
-				System.out.println("14. Move patient from emergency ward to surgery room");
-				System.out.println("15. Move patient from emergency ward to ward");
+				System.out.println("1. Login as Admin"); //Can access all employee's function
+				System.out.println("2. Login as HR"); //add new employee, delete employee, edit, pay, edit paycheck
+				System.out.println("3. Login as Nurse");// view doctor's appointments, view patient profile(name, doctor, prescription...),schedule doctor's appointment, move patient (ward2surgery, emergency2ward, vice versa)
+				System.out.println("4. Login as Doctor/Surgeon");// view appointment, edit prescription, view patient profile, edit/remove appointments, check surgery room status (clean?available?)
+				System.out.println("5. Login as Lab");//view patient, check blood, edit patient blood type.
+				System.out.println("6. Login as Receptionist");// view doctor appointment's, add new patient, add new appointment, delete appointment, charge patient.
+				System.out.println("7. Login as Pharmacist");// give medicine, request new order from store manager, view all medicine (in stock or not),
+				//new use case
+				System.out.println("8. Login as Store manager");// manage inventory, keep track of medicine stock/equipment, order new equipment/medicine
+
 				System.out.println();
 				System.out.println("-1: Exit");
 				System.out.println("Your option: ");
@@ -92,7 +94,7 @@ public class UI {
 							String userName = scan.next();
 							System.out.println("Enter Admin password");
 							String adminPass = scan.next();
-							if(conn.checkLogin(myStmt, userName, adminPass) == false){
+							if(conn.checkLogin(myStmt,"admin" ,userName, adminPass) == false){
 								System.out.println(" or Wrong password ");
 								return;
 							}
@@ -123,19 +125,9 @@ public class UI {
 						break;
 
 
-					/*Add patient*/
+					/*Login as HR*/
 					case 2:
-
-						System.out.println("Enter the patient's First name: No space in between");
-						String patientFirstName_case2 = scan.next();
-						System.out.println("Enter the patient's Last Name: No space in between");
-						String patientLastName_case2 = scan.next();
-						String patientName_case2 = patientFirstName_case2 + " " + patientLastName_case2;
-						System.out.println("Enter the patient's ID: ");
-						String patientID = scan.next();
-
-						Patient p_case2 = new Patient(patientID, patientName_case2);
-						conn.createPatient(myStmt, p_case2);
+						EmployeeUI.hrMenu(myStmt);
 						break;
 					/*Make Appointment*/
 					case 3:

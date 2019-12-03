@@ -1,4 +1,6 @@
-package main.java;
+package main.java.staff;
+
+import main.java.*;
 
 public class Receptionist {
 

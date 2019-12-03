@@ -1,5 +1,9 @@
 package main.java;
 
+import main.java.staff.Nurse;
+import main.java.staff.Receptionist;
+import main.java.staff.Surgeon;
+
 import java.util.Random;
 
 /**

@@ -1,4 +1,4 @@
-package main.java;
+package main.java.hospital_obj;
 
 import javax.swing.*;
 import java.util.*;

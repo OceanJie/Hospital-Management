@@ -1,6 +1,6 @@
-package main.java;
+package main.java.staff;
 
-public class Doctor {
+public class Doctor implements Employee {
 	/*
 *Doctor class
 *
@@ -8,8 +8,9 @@ public class Doctor {
 */
 
 	private String doctor_name;
-	private String id;
+	private int id;
 	private Salary salary;
+	private double bonus;
 
 	public Doctor(String name)
 	{
@@ -19,6 +20,7 @@ public class Doctor {
 	public Doctor(String id, String name, double salary) {
 		doctor_name = name;
 		this.salary = new Salary(salary, 0);
+		this.bonus = 0;
 	}
 	
 	public Doctor(String id, String name) {
@@ -30,6 +32,12 @@ public class Doctor {
 	public Doctor(String name, double salary) {
 		this("0", name, salary);
 	}
+
+	@Override
+	public void setId(int newId) {
+
+	}
+
 	public void setName(String name)
 	{
 		doctor_name = name;
@@ -40,9 +48,14 @@ public class Doctor {
 	}
 	
 	public Salary getSalary() {
-		return salary;
+		return this.salary;
 	}
-	
+
+	@Override
+	public double getBonus() {
+		return bonus;
+	}
+
 	public boolean setSalary(double newSalary) {
 		if(newSalary <= 0) 
 			return false;
@@ -61,5 +74,5 @@ public class Doctor {
 		}
 	}
 	
-	public String getId(){return id;}
+	public int getId(){return id;}
 }

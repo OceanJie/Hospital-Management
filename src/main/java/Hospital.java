@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.staff.Doctor;
+
 import java.util.LinkedList;
 
 /*

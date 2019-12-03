@@ -1,6 +1,8 @@
 package main.java;
 
-import javax.swing.plaf.nimbus.State;
+import main.java.hospital_obj.Lab;
+import main.java.staff.Doctor;
+
 import java.sql.*;
 /**
  * @author Sheng Jie Ooi
@@ -25,7 +27,7 @@ public class HospitalController {
       /*just use this one for the myStmt*/
       Statement myStmt = myConn.createStatement();
       Appointment app = new Appointment(1,"Ken Lee","Nick Ong",19971010,1800,"yeet");
-      System.out.println(checkLogin(myStmt,"Sheng Jie","1234"));
+      System.out.println(checkLogin(myStmt,"patients","Sheng Jie","1234"));
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -39,28 +41,21 @@ public class HospitalController {
 public static void getAllFromTable(Statement myStmt, String tableName) {
   try {
     /*this is the command to doctors table*/
-    String sql = "select * from mydb." + "tableName";
+    String sql = "select * from mydb." + tableName;
     ResultSet rs = myStmt.executeQuery(sql); //Return the query based on the sql that is parsed
-    if (tableName.equals("doctors")) {
-      System.out.printf("%-20s %-20s %n", "Doctor id", "Doctor Name");
-      /* while loop that prints everything from mydb.doctors*/
-      while (rs.next()) {
-        /*"doctorName" is the name of the column of the doctors table"*/
-        System.out.printf("%-20s %-20s %n", rs.getString("doctorId"), rs.getString("doctorName"));
-      }
-    }
+
     if (tableName.equals("patients")) {
       System.out.printf("%-20s %-20s %n", "Patient id", "Patient Name");
       /* while loop that prints everything from mydb.patients*/
       while (rs.next()) {
         /*"patientName" and "patientId" are the name of the column of the patient table"*/
-        System.out.printf("%-20s %-20s %n", rs.getString("patientId"), rs.getString("patientName"));
+        System.out.printf("%-20s %-20s %-20s %n", rs.getString("id"), rs.getString("name"),rs.getString("bloodtype"));
       }
     }
-    if (tableName.equals("pharmacy")) {
+   else if (tableName.equals("pharmacy")) {
 
     }
-    if (tableName.equals("appointments")) {
+   else if (tableName.equals("appointments")) {
       System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Date", "Time", "Prescription");
       /* while loop that prints everything from mydb.patients*/
       while (rs.next()) {
@@ -68,7 +63,8 @@ public static void getAllFromTable(Statement myStmt, String tableName) {
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %n", rs.getString("appointmentId"),
                 rs.getString("patientName"), rs.getString("doctorName"), rs.getString("date"), rs.getString("time"), rs.getString("prescription"));
       }
-      if (tableName.equals("emergency_ward")) {
+    }
+     else if (tableName.equals("emergency_ward")) {
         System.out.printf("%-20s %-20s %-20s %n", "Emergency id", "Patient Name","Doctor Name");
         /* while loop that prints everything from mydb.patients*/
         while (rs.next()) {
@@ -84,7 +80,7 @@ public static void getAllFromTable(Statement myStmt, String tableName) {
           System.out.printf("%-20s %-20s %-20d %n", rs.getString("medId"), rs.getString("medName"), rs.getString("amount"));
         }
       }
-      if (tableName.equals("surgeryapp")) {
+     else if (tableName.equals("surgeryapp")) {
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20d %-20s %-20d %n", "Surgury App ID", "Patient Name", "Surgeon Name", "Nurse Name", "Nurse Name", "Nurse Name",
                 "Start time", "Hour of Use");
         /* while loop that prints everything from mydb.patients*/
@@ -95,7 +91,7 @@ public static void getAllFromTable(Statement myStmt, String tableName) {
                   rs.getString("startTime"), rs.getString("hourOfUse"));
         }
       }
-      if (tableName.equals("ward")) {
+      else if (tableName.equals("ward")) {
         System.out.printf("%-20s %-20s %-20s %-20s %n", "Ward id", "Patient Name","Doctor Name", "Prescription");
         /* while loop that prints everything from mydb.patients*/
         while (rs.next()) {
@@ -103,23 +99,30 @@ public static void getAllFromTable(Statement myStmt, String tableName) {
           System.out.printf("%-20s %-20s %-20s %-20s %n", rs.getString("wardId"), rs.getString("patientName"),rs.getString("doctorName"), rs.getString("prescription"));
         }
       }
-
-    }
-  } catch (SQLException e) {
-    e.printStackTrace();
+      else {
+        System.out.printf("%-20s %-20s %-20s %-20s %n", "id", "Name","Salary","Bonus");
+        /* while loop that prints everything from mydb.doctors*/
+        while (rs.next()) {
+          /*"doctorName" is the name of the column of the doctors table"*/
+          System.out.printf("%-20s %-20s %-20s %-20s %n", rs.getString("id"), rs.getString("name"),rs.getString("salary"),rs.getString("bonus"));
+        }
+      }
+    } catch (SQLException ex) {
+    ex.printStackTrace();
   }
 }
 
-public static boolean checkLogin(Statement myStmt, String userName, String password){
+
+public static boolean checkLogin(Statement myStmt, String table,String userName, String password){
   boolean valid = false;
 
   try{
-    boolean checkUserName =isStringEntityExist(myStmt,"admin","adminName",userName);
+    boolean checkUserName =isStringEntityExist(myStmt,table,"username",userName);
     if(checkUserName==false){
-      System.out.printf("user name %s not exist", userName);
+      System.out.printf("user name %s not exist in %s", userName,table);
       return false;
     }
-    String pass = getStringEntity(myStmt, "admin","adminPassword","adminName",userName);
+    String pass = getStringEntity(myStmt, table,"password","password",password);
     if(pass == password){
       valid = true;
     }
@@ -476,6 +479,58 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
 
 
   }
+  public static boolean isInteger(String str) {
+    if (str == null) {
+      return false;
+    }
+    int length = str.length();
+    if (length == 0) {
+      return false;
+    }
+    int i = 0;
+    if (str.charAt(0) == '-') {
+      if (length == 1) {
+        return false;
+      }
+      i = 1;
+    }
+    for (; i < length; i++) {
+      char c = str.charAt(i);
+      if (c < '0' || c > '9') {
+        return false;
+      }
+    }
+    return true;
+  }
+  public static void updateColFromTable(Statement myStmt, String table, String colToEdit, int id,String newColValue ){
+    if (!isStringEntityExist(myStmt, table, "id", Integer.toString(id))) {
+      System.out.printf("id %d in table %s does not exist", id,table);
+      return;
+    }
+    try {
+      if(isInteger(newColValue)==true){
+        int newValue = Integer.parseInt(newColValue);
+        String sql = "UPDATE "+ table +" SET "+ colToEdit +" = " + "'" + newValue  + "'" + " WHERE id = " + "'" + id + "'";
+
+        myStmt.executeUpdate(sql); //Return the query based on the sql that is parsed
+      }
+      else{
+        String newValue =  newColValue;
+        String sql = "UPDATE "+ table +" SET "+ colToEdit +" = " + "'" + newValue  + "'" + " WHERE id = " + "'" + id + "'";
+
+        myStmt.executeUpdate(sql); //Return the query based on the sql that is parsed
+      }
+      /*this is the command to appointment table and retrieve all entities with doctor name*/
+
+
+
+      System.out.printf("Id: %s , Table: %s, Column: %s has successfully updated!", id, table, colToEdit);
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   public static void updatePrescription(Statement myStmt, int appId, String newPrescrip) {
     if (!isStringEntityExist(myStmt, "appointments", "appointmentId", Integer.toString(appId))) {
@@ -636,6 +691,10 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
       e.printStackTrace();
     }
   }
+  public static void removeEmployeeAccount(Statement myStmt, String table, int employeeId){
+    String exeDelete = "DELETE FROM "+ table +" WHERE id='"+employeeId+"'";
+    System.out.printf("Employee id %d from table %s has been removed \n",employeeId,table);
+  }
   public static void createSurgeryAppointment(Statement myStmt, SurgeryRoomAppointment app) {
     try {
       /* the format will be: ("INSERT INTO mydb.[table name] ([first column], [second Column]) VALUES ('[value for first column]', '[value for second column]')");*/
@@ -669,6 +728,20 @@ public static boolean checkLogin(Statement myStmt, String userName, String passw
       e.printStackTrace();
     }
   }
+public static void createNewAcc(Statement myStmt, String table, String username, String password){
+    try{
+      if(isStringEntityExist(myStmt,table,"username",username)){
+        System.out.println("Username already exist");
+      }
+      else{
+        myStmt.executeUpdate("INSERT INTO mydb."+table +" (username, password) VALUES ("
+                + "'" + username + "'" + "," + "'" + password + "'" + ")");
+      }
+    }
 
+    catch(Exception e){
+      e.printStackTrace();
+    }
+}
 }
 

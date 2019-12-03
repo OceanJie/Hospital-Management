@@ -1,4 +1,9 @@
-package main.java;
+package main.java.hospital_obj;
+
+import main.java.Patient;
+import main.java.hospital_obj.Inventory;
+import main.java.staff.Nurse;
+import main.java.staff.Surgeon;
 
 /**
  * Surgery Room

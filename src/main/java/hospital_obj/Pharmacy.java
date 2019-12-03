@@ -1,4 +1,6 @@
-package main.java;
+package main.java.hospital_obj;
+
+import main.java.hospital_obj.Inventory;
 
 import java.util.StringTokenizer;
 

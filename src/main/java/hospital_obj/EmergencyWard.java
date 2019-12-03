@@ -1,4 +1,4 @@
-package main.java;
+package main.java.hospital_obj;
 
 public class EmergencyWard {
     String pName;

@@ -1,5 +1,9 @@
 package main.java;
 
+import main.java.hospital_obj.SurgeryRoom;
+import main.java.staff.Nurse;
+import main.java.staff.Surgeon;
+
 /**
  * Appointment class specifically for surgery rooms
  *

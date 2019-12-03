@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.staff.Doctor;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
