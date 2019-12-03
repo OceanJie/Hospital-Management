@@ -80,7 +80,7 @@ public class Cafeteria {
 
 		int option = 0;
 
-		while(option != 500) {
+		while(true) {
 			System.out.println("+---------------------------+");
 			System.out.println("1. Take Order");
 			System.out.println("2. Change Price");
@@ -98,11 +98,11 @@ public class Cafeteria {
 				addQuantity();
 			else if(option == 500) {
 				System.out.println("Shutting down...");
-				System.exit(0);
+				//System.exit(0);
+				scan.close();
+				return;
 			}
 		}
-
-		scan.close();
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class Cafeteria {
 					System.out.println("Invalid quantity! Enter the quantity: ");
 					quantity = scan.nextInt();
 				}
-				
+
 				//Update quantity
 				if(quantity <= menu[choice-1].getQuantity()) {
 					//There's a vegan option for this, so ask
@@ -166,12 +166,12 @@ public class Cafeteria {
 							} else {
 								System.out.println("Enter the qty of vegan option: ");
 								veganNum = scan.nextInt();
-								
+
 								while(veganNum <= 0) {
 									System.out.println("Invalid vegan quantity! Enter the vegan quantity: ");
 									veganNum = scan.nextInt();
 								}
-								
+
 								if(veganNum > menu[choice-1].getQuantity()) 
 									veganNum = quantity;
 								else
@@ -198,12 +198,12 @@ public class Cafeteria {
 								} else {
 									System.out.println("Enter the qty of vegan option: ");
 									veganNum = scan.nextInt();
-									
+
 									while(veganNum <= 0) {
 										System.out.println("Invalid vegan quantity! Enter the vegan quantity: ");
 										veganNum = scan.nextInt();
 									}
-									
+
 									if(veganNum > menu[choice-1].getQuantity()) 
 										veganNum = quantity;
 									else
@@ -243,8 +243,11 @@ public class Cafeteria {
 			amt = scan.nextDouble();
 		}
 
-		System.out.printf("Change Due: $%.2f\n", (amt - price));
-		ID += 1;
+		if(ar.size() != 0) {
+			System.out.printf("Change Due: $%.2f\n", (amt - price));
+			ID += 1;
+		}
+		ar.clear();
 	}
 
 	/**

@@ -6,13 +6,13 @@ package main.java;
  * @author Nicholas Ong
  */
 public class Order {
-	
+
 	private int number;
 	private int quantity;
 	private double price;
 	private boolean veganOption;
 	private int veganAmt;
-	
+
 	/**
 	 * Constructor for this class
 	 * 
@@ -29,31 +29,31 @@ public class Order {
 		this.veganOption = veganOption;
 		this.veganAmt = veganAmt;
 	}
-	
+
 	public boolean isVeganOption() {
 		return veganOption;
 	}
-	
+
 	public int getVeganAmt() {
 		return veganAmt;
 	}
-	
+
 	public double getPrice() {
 		return price;
 	}
-	
+
 	public int getNumber() {
 		return number;
 	}
-	
+
 	public int getQuantity() {
 		return quantity;
 	}
-	
+
 	public void addQuantity(int amt) {
 		quantity += amt;
 	}
-	
+
 	/**
 	 * Non-vegan * price + Vegan * 15% off original price
 	 * 
