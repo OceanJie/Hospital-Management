@@ -149,6 +149,11 @@ public class Cafeteria {
 				System.out.println("Enter the quantity: ");
 				quantity = scan.nextInt();
 
+				while(quantity <= 0) {
+					System.out.println("Invalid quantity! Enter the quantity: ");
+					quantity = scan.nextInt();
+				}
+				
 				//Update quantity
 				if(quantity <= menu[choice-1].getQuantity()) {
 					//There's a vegan option for this, so ask
@@ -161,6 +166,12 @@ public class Cafeteria {
 							} else {
 								System.out.println("Enter the qty of vegan option: ");
 								veganNum = scan.nextInt();
+								
+								while(veganNum <= 0) {
+									System.out.println("Invalid vegan quantity! Enter the vegan quantity: ");
+									veganNum = scan.nextInt();
+								}
+								
 								if(veganNum > menu[choice-1].getQuantity()) 
 									veganNum = quantity;
 								else
@@ -173,6 +184,7 @@ public class Cafeteria {
 					System.out.println("There's only " + menu[choice-1].getQuantity() + " left but you've entered " + quantity + ". Do you want to order the remaining " + 
 							(menu[choice-1].getQuantity()) + " of " + menu[choice-1].getName() + "? (y/n)");
 					answer = scan.next();
+					quantity = 0;
 					if(answer.equals("y")) {
 						quantity = menu[choice-1].getQuantity();
 						menu[choice-1].setQuantity(0);
@@ -186,6 +198,12 @@ public class Cafeteria {
 								} else {
 									System.out.println("Enter the qty of vegan option: ");
 									veganNum = scan.nextInt();
+									
+									while(veganNum <= 0) {
+										System.out.println("Invalid vegan quantity! Enter the vegan quantity: ");
+										veganNum = scan.nextInt();
+									}
+									
 									if(veganNum > menu[choice-1].getQuantity()) 
 										veganNum = quantity;
 									else
