@@ -29,8 +29,4 @@ public class Ward {
 	public String getPresrip(){
 		return presrip;
 	}
-
-	public void orderFoodFromCafeteria() {
-
-	}
 }

@@ -10,8 +10,7 @@ public class Order {
 	private int number;
 	private int quantity;
 	private double price;
-	private boolean veganOption;
-	private int veganAmt;
+	private String name;
 
 	/**
 	 * Constructor for this class
@@ -19,25 +18,18 @@ public class Order {
 	 * @param number - The number ordering of the item from the Menu
 	 * @param quantity - Quantity of the item ordered 
 	 * @param price - Price of the item ordered
-	 * @param veganOption - If this item has vegan option
-	 * @param veganAmt - Amount of vegan option if opted for it
 	 */
-	public Order(int number, int quantity, double price, boolean veganOption, int veganAmt) {
+	public Order(int number, int quantity, double price, String name) {
 		this.number = number;
 		this.quantity = quantity;
 		this.price = price;
-		this.veganOption = veganOption;
-		this.veganAmt = veganAmt;
+		this.name = name;
 	}
 
-	public boolean isVeganOption() {
-		return veganOption;
+	public String getName() {
+		return name;
 	}
-
-	public int getVeganAmt() {
-		return veganAmt;
-	}
-
+	
 	public double getPrice() {
 		return price;
 	}
@@ -60,6 +52,6 @@ public class Order {
 	 * @return
 	 */
 	public double getTotalPrice() {
-		return ((quantity - veganAmt) * price) + (veganAmt * (price - (price * 0.15)));
+		return getQuantity() * getPrice();
 	}
 }
