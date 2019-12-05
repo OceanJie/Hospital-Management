@@ -158,7 +158,7 @@ public class Cafeteria {
 			option = scan.nextInt();
 
 			if(option == 1)
-				takeOrderAsCashier();
+				takeOrder();
 			else if(option == 2)
 				changePrice();
 			else if(option == 3)
@@ -181,10 +181,10 @@ public class Cafeteria {
 	 * Continue to take an order until it enters 500 to exit from this option
 	 */
 	@SuppressWarnings("resource")
-	public void takeOrderAsCashier() {
+	public boolean takeOrder() {
 		if(!checkAnyItemsAvailable()) {
 			System.out.println("All of your items are unavailable. Unavailable to take order.");
-			return;
+			return false;
 		}
 
 		Scanner scan = new Scanner(System.in);
@@ -395,6 +395,7 @@ public class Cafeteria {
 			ID += 1;
 		}
 		ar.clear();
+		return true;
 	}
 
 	/**
@@ -403,7 +404,7 @@ public class Cafeteria {
 	 * Continue to ask the OP to change it until it enters 500 to exit from this option
 	 */
 	@SuppressWarnings("resource")
-	public void changePrice() {
+	public boolean changePrice() {
 		Scanner scan = new Scanner(System.in);
 		int choice = 0;
 		double price = 0;
@@ -480,6 +481,7 @@ public class Cafeteria {
 			//Reset
 			total = 1;
 		}
+		return true;
 	}
 
 	/**
@@ -488,7 +490,7 @@ public class Cafeteria {
 	 * Continue to update the quantity of the item until it enters 500 to exit from this option
 	 */
 	@SuppressWarnings("resource")
-	public void addQuantity() {		
+	public boolean addQuantity() {		
 		Scanner scan = new Scanner(System.in);
 		int choice = 0;
 		int quantity = 0;
@@ -565,6 +567,7 @@ public class Cafeteria {
 			//Reset
 			total = 1;
 		}
+		return true;
 	}
 
 	/**
@@ -799,7 +802,7 @@ public class Cafeteria {
 				return true;
 		return false;
 	}
-
+      
 	/**
 	 * Checks if the given Menu has duplicated names
 	 * 

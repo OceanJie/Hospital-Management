@@ -30,4 +30,14 @@ public class CafeteriaAttendant {
 	public Salary getSalary() {
 		return salary;
 	}
+	
+	public static void main(String[] args) {
+		Cafeteria c = new Cafeteria();
+		if(c.operate())
+			System.out.println("OKAY");
+		else
+			System.out.println("ERROR");
+		CafeteriaAttendant ca = new CafeteriaAttendant(1, "sohai", 0);
+		ca.operateCafeteria();
+	}
 }
