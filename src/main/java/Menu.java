@@ -13,11 +13,10 @@ public class Menu {
 	private int quantity;
 	private boolean veganOption;
 
-	public Menu(String name, double price, int quantity, boolean veganOption) {
+	public Menu(String name, double price, int quantity) {
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
-		this.veganOption = veganOption;
 	}
 
 	public boolean hasVeganOption() {

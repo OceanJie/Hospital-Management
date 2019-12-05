@@ -1,5 +1,9 @@
 package main.java.staff;
 
+import main.java.Marketing;
+
+import java.util.Scanner;
+
 public class HumanResources implements Employee {
 	private String name;
 	private int id;
@@ -71,8 +75,22 @@ public class HumanResources implements Employee {
 		return 0;
 	}
 
-//	@Override
-//	public String getPicturePath() {
-//		return picPath;
-//	}
+	public boolean useSearchEngine() {
+		Scanner scan = new Scanner(System.in);
+		String input = "";
+
+		while(true) {
+			System.out.println("Do you want to use the search engine? (y/n)");
+			input = scan.next();
+			if(input.equalsIgnoreCase("y")) {
+				Marketing m = new Marketing();
+				m.search();
+				return true;
+			} else
+				break;
+		}
+
+		scan.close();
+		return false;
+	}
 }
