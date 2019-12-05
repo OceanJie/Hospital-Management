@@ -56,6 +56,8 @@ public class Doctor implements Employee {
 		return bonus;
 	}
 
+
+
 	public boolean setSalary(double newSalary) {
 		if(newSalary <= 0) 
 			return false;

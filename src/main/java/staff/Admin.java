@@ -73,7 +73,7 @@ public class Admin implements Employee {
 
 	@Override
 	public double getBonus() {
-		return bonus;
+		return this.salary.getBonus();
 	}
 }
 

@@ -2,6 +2,8 @@ package main.java;
 import java.sql.*;
 import java.util.Scanner;
 
+import static main.java.EmployeeImage.PatientImageFrame;
+
 public class EmployeeUI {
 
     private static HospitalController conn = new HospitalController();
@@ -10,7 +12,7 @@ public class EmployeeUI {
     private static String password = "1234";
     private static Statement myStmt;
     private static Scanner scan = new Scanner(System.in);
-    private static String[] tablenameOption = {" ", "doctors", "surgeon", "nurses", "receptionist", "hr", "pharmacist"};
+    private static String[] tablenameOption = {" ", "doctors", "surgeons", "nurses", "receptionist", "hr", "pharmacist"};
     private static final String JOBOPTION =  "1. Doctor \n" +
                                         "2. Surgeon \n" +
                                         "3. Nurse \n" +
@@ -24,10 +26,12 @@ public class EmployeeUI {
             java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
             /*just use this one for the myStmt*/
             myStmt = myConn.createStatement();
-            conn.getAllFromTable(myStmt,"nurses");
+            hrMenu(myStmt);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -93,7 +97,7 @@ public class EmployeeUI {
      * @param myStmt
      * @param table to check with (For example, hr for human resources, doctors for doctor, etc...)
      * */
-    public static void loginUI(Statement myStmt,String table){
+    public static boolean loginUI(Statement myStmt,String table){
         while(true) {
             System.out.println("Enter User Name");
             String userName = scan.next();
@@ -101,7 +105,7 @@ public class EmployeeUI {
             String pass = scan.next();
 
             if (conn.checkLogin(myStmt, table, userName, pass) == true) {
-                break;
+                return true;
 
             }
 
@@ -116,8 +120,10 @@ public class EmployeeUI {
             System.out.println("1. create new account");
             System.out.println("2. remove existing account");
             System.out.println("3. View existing employee");
+
             System.out.println("4. Pay employee");
             System.out.println("5. Edit Salary");
+
             System.out.println();
             System.out.println("-1. return to main menu");
             hrOption=scan.nextInt();
@@ -154,6 +160,26 @@ public class EmployeeUI {
                         }
                         String viewTableName = tablenameOption[viewJobOption].toString();
                         conn.getAllFromTable(myStmt, viewTableName);
+                        System.out.println("Select employee to view profile");
+                        employeeId = scan.nextInt();
+
+                        //get pic path
+                        String picturePath = conn.getStringEntity(myStmt,viewTableName,"picture","id",Integer.toString(employeeId));
+                        //get name
+                        String employeeName = conn.getStringEntity(myStmt,viewTableName,"name","id",Integer.toString(employeeId));
+                        //get job title
+
+                        {
+                            // 显示应用 GUI
+                            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                public void run() {
+                                    PatientImageFrame(picturePath, employeeName,viewTableName);
+
+                                }
+                            });
+
+                        }
+
                         Thread.sleep(500);
                     }
 

@@ -13,4 +13,5 @@ public interface Employee {
     public Salary getSalary();
     public double getBonus();
 
+
 }

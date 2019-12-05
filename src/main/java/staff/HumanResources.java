@@ -4,7 +4,7 @@ public class HumanResources implements Employee {
 	private String name;
 	private int id;
 	private Salary salary;
-
+	private String picPath;
 
 	public HumanResources() {
 
@@ -70,4 +70,9 @@ public class HumanResources implements Employee {
 	public double getBonus() {
 		return 0;
 	}
+
+//	@Override
+//	public String getPicturePath() {
+//		return picPath;
+//	}
 }
