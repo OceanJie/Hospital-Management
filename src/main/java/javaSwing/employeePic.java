@@ -12,7 +12,7 @@ public class employeePic {
         button_close.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                frame.dispose();
+
             }
         });
     }

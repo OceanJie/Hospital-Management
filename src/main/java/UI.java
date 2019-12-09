@@ -1,6 +1,7 @@
 package main.java;
 
 import main.java.staff.Doctor;
+import main.java.staff.HumanResources;
 import main.java.staff.Nurse;
 import main.java.staff.Surgeon;
 

@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.staff.Salary;
+
 public class CafeteriaAttendant {
 	
 	public static boolean ATTENDANT_LOGIN = false;
@@ -30,7 +32,7 @@ public class CafeteriaAttendant {
 	public Salary getSalary() {
 		return salary;
 	}
-	
+
 	public static void main(String[] args) {
 		Cafeteria c = new Cafeteria();
 		if(c.operate())
