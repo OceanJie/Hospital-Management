@@ -32,7 +32,7 @@ public class CafeteriaAttendant {
 	public Salary getSalary() {
 		return salary;
 	}
-	
+
 	public static void main(String[] args) {
 		Cafeteria c = new Cafeteria();
 		if(c.operate())
