@@ -20,9 +20,9 @@ public class LoginCmd implements iCommand {
     }
 
     @Override
-    public boolean execute() {
-        boolean result = EmployeeUI.loginUI(myStmt, table);
+    public void execute() {
+
         EmployeeUI.loginUI(myStmt, table);
-        return result;
+
     }
 }

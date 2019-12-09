@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import static main.java.EmployeeImage.PatientImageFrame;
 
-public class EmployeeUI {
+public class HrFunction {
 
     private static HospitalController conn = new HospitalController();
     private static String url = "jdbc:mysql://localhost:3306/mydb?useSSL=false";
@@ -20,38 +20,27 @@ public class EmployeeUI {
                                         "5. Human Resources \n" +
                                         "6. Pharmacist \n" +
                                         "-1. Back to home \n";
-    public static void main(String[] args) {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
-            /*just use this one for the myStmt*/
-            myStmt = myConn.createStatement();
-            hrMenu(myStmt);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-
-    }
     /**
      * get user's username, password, name and add it into database
-     * @param tableName
+     *
      * @param myStmt
      */
 
-    public static void newAccInfo(Statement myStmt,String tableName){// return name;
+    public static void createNewAccount(Statement myStmt){// return name;
         String username;
         String password;
         String name;
+
+        System.out.println("Select a number of the job title of the new employee.\n" + JOBOPTION);
+        int jobOption = scan.nextInt();
+        String tableName = tablenameOption[jobOption].toString();
+
         while(true){
             System.out.println("Enter the username");
             username = scan.next();
             if(conn.isStringEntityExist(myStmt,tableName,"username",username)){
-                System.out.printf("Username %s already exist", username);
+                System.out.printf("Username %s already exist \n", username);
             }
             else{
                 break;
@@ -71,6 +60,8 @@ public class EmployeeUI {
         }
         while(!newPass.equals(newRePass));
        password = newPass;
+
+
        String lastName;
        String firstName;
        System.out.println("Enter First name");
@@ -129,15 +120,7 @@ public class EmployeeUI {
             hrOption=scan.nextInt();
 
             switch (hrOption){
-                case 1:
-                    System.out.println("Select a number of the job title of the new employee.\n" + JOBOPTION);
-                    int jobOption = scan.nextInt();
 
-
-                    String tablename = tablenameOption[jobOption].toString();
-
-                    newAccInfo(myStmt,tablename);
-                    break;
                 case 2:
                     System.out.println("Select job position of the employee to delete from \n"+
                           JOBOPTION);

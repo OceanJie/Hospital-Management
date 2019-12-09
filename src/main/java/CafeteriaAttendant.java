@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.staff.Salary;
+
 public class CafeteriaAttendant {
 	
 	public static boolean ATTENDANT_LOGIN = false;

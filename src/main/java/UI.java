@@ -1,6 +1,7 @@
 package main.java;
 
 import main.java.staff.Doctor;
+import main.java.staff.HumanResources;
 import main.java.staff.Nurse;
 import main.java.staff.Surgeon;
 
@@ -125,7 +126,7 @@ public class UI {
 
 					/*Login as HR*/
 					case 2:
-						EmployeeUI.hrMenu(myStmt);
+						HrFunction.hrMenu(myStmt);
 						break;
 					/*Make Appointment*/
 					case 3:
