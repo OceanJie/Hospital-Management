@@ -18,6 +18,7 @@ public class SurgeryRoomAppointment {
 	private Nurse nurse;
 	private int ID;
 
+
 	public SurgeryRoomAppointment(int ID, int startTime, Patient patient, Surgeon surgeon, Nurse nurse, int roomID) {
 		this.surgeon = surgeon;
 		this.patient = patient;

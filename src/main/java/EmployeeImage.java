@@ -12,7 +12,7 @@ import java.util.Scanner;
 //import javax.xml.ws.AsyncHandler;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-class EmployeeImage {
+public class EmployeeImage {
     /**{
      * 创建并显示GUI。出于线程安全的考虑，
      * 这个方法在事件调用线程中调用。

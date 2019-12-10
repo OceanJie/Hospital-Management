@@ -1,13 +1,17 @@
-package main.java.command;
+package main.java.command.ReceptionistCmd;
+
+import main.java.command.iCommand;
+import main.java.command.iFrontEnd;
 
 import java.util.ArrayList;
 
-public class CafeteriaFrontEnd implements iFrontEnd {
-    ArrayList<iCommand>cmdList = new ArrayList<iCommand>();
+public class ReceptionistFrontEnd implements iFrontEnd {
+    ArrayList<iCommand> cmdList = new ArrayList<iCommand>();
 
-   public CafeteriaFrontEnd(ArrayList<iCommand>cmdList){
+    public ReceptionistFrontEnd(ArrayList<iCommand> cmdList){
         this.cmdList = cmdList;
     }
+
     @Override
     public void addCommand(iCommand cmd) {
         cmdList.add(cmd);
@@ -25,6 +29,4 @@ public class CafeteriaFrontEnd implements iFrontEnd {
 
         }
     }
-    }
-
-
+}
