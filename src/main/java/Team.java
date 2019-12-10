@@ -1,12 +1,15 @@
 package main.java;
 
+import main.java.hospital_obj.Staff;
+import main.java.staff.Employee;
+
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
 public class Team {
-    private ArrayList<String> names;
+    private ArrayList<Staff> names;
     private ArrayList<Projects> projects;
     private String startTime;
     private String endTime;
@@ -20,24 +23,37 @@ public class Team {
         projects = new ArrayList<>();
     }
 
-    public boolean addStaff(String name){
-        for(String temp : names){
-            if(temp == name) {
+    public boolean addStaff(String job, String name, double salary){
+        for(Staff temp : names){
+            if(temp.getName().equals(name)) {
                 System.out.println("The person is already in the shift");
                 return false;
             }
         }
-        this.names.add(name);
+        this.names.add(new Staff(job, name, salary));
         System.out.println("the person is successfully added");
         return true;
     }
 
     public boolean removeStaff(String name){
-        for(String temp : names){
-            if(temp == name) {
-                this.names.remove(name);
-                System.out.println("the person is successfully removed");
-                return true;
+        int count = 0;
+        if(!names.isEmpty()) {
+            for (Staff temp : names) {
+                if (temp.getName().equals(name)) {
+                    this.names.remove(count);
+                    if(!projects.isEmpty()){
+                        int i = 0;
+                        for(Projects pTemp: projects){
+                            if(pTemp.findStaff(name)) {
+                                pTemp.removeStaff(name);
+                            }
+                            i++;
+                        }
+                    }
+                    System.out.println("the person is successfully removed from the team");
+                    return true;
+                }
+                count++;
             }
         }
         System.out.println("The person is not in the Shift");
@@ -106,14 +122,22 @@ public class Team {
         else {
             if(!projects.isEmpty()) {
                 for (Projects temp: projects) {
-                    if(temp.getDescription().equals(description))
-                        System.out.println("Project has been created");
-                    else
+                    if(temp.getDescription().equals(description)) {
+                        System.out.println("Project existed");
+                        return false;
+                    }
+                    else {
                         projects.add(new Projects(description, start, end));
+                        System.out.println("Project has been successfully created");
+                        return true;
+                    }
                 }
-            } else
+            } else {
                 projects.add(new Projects(description, start, end));
-            return true;
+                System.out.println("Project has been successfully created");
+                return true;
+            }
+            return false;
         }
     }
 
@@ -134,38 +158,43 @@ public class Team {
 
     public boolean addPeopleToProject(int pChoice, int nChoice){
         if(!projects.isEmpty()){
-            if(pChoice > projects.size() || nChoice > names.size()) {
-                System.out.println("There is no " + pChoice + " option or " + nChoice +" for people");
+            if(!names.isEmpty()){
+               projects.get(pChoice - 1).addStaff(names.get(nChoice - 1).getName(), names.get(nChoice - 1).getRole(), names.get(nChoice - 1).getSalary());
+            } else{
+                System.out.println("There are no staff in the team");
+            }
+
+        } else {
+            System.out.println("There are currently no projects");
+            return false;
+        }
+        return false;
+    }
+
+    public boolean removePeopleFromProject(int pChoice, String nChoice){
+        if(!projects.isEmpty()){
+            if(pChoice - 1> projects.size()) {
+                System.out.println("There is no " + pChoice + " option.");
                 return false;
             }
             else {
-                if(!names.isEmpty()) {
-                    projects.get(pChoice - 1).addStaff(names.get(nChoice - 1));
+                    projects.get(pChoice - 1).removeStaff(nChoice);
                     return true;
-                }
-                else{
-                    System.out.println("There is no one to add");
-                    return false;
-                }
             }
         }
         System.out.println("There are currently no projects");
         return false;
     }
 
-    public boolean removePeopleFromProject(int pChoice, int nChoice){
+    public void printSelectedProjectPplList(int pChoice){
         if(!projects.isEmpty()){
-            if(pChoice > projects.size()) {
-                System.out.println("There is no " + pChoice + " option.");
-                return false;
-            }
-            else {
-                    projects.get(pChoice - 1).removeStaff(nChoice - 1);
-                    return true;
+            if(pChoice - 1< projects.size()) {
+                projects.get(pChoice - 1).printNames();
             }
         }
-        System.out.println("There are currently no projects");
-        return false;
+        else{
+            System.out.println("There are currently no project in the team");
+        }
     }
 
     public void printProjectsList(){
@@ -180,49 +209,62 @@ public class Team {
     }
 
     public void printPoeplesList(){
+        int count = 1;
         if(!names.isEmpty()) {
-            System.out.println("People");
+            System.out.println("\nPeople");
             System.out.println("=================================\n");
-            for (int i = 0; i < names.size(); i++) {
-                System.out.println("" + (i + 1) + ". " + names.get(i));
+            for (Staff temp : this.names) {
+                System.out.print(count + ". ");
+                temp.printOut();
+                count++;
             }
+            System.out.println("\n");
+        }
+        else {
             System.out.println("There are currently no peoples");
         }
     }
 
 
-    public void showDetail(Statement myStmt){
+    public void showDetail(){
         System.out.println("Shift: " + startTime + " - " + endTime);
         if(!names.isEmpty()) {
             System.out.println("People: ");
-            for (String name : this.names) {
-                for (int i = 0; i < tablenameOption.length; i++) {
-                    if (conn.isStringEntityExist(myStmt, tablenameOption[i], "name", name)) {
-                        System.out.println(name + "position: " + tablenameOption[i]);
-                    }
-                }
+            for (Staff temp : this.names) {
+                temp.printOut();
             }
             System.out.println("\n");
         }
         if(!projects.isEmpty()){
             for(Projects temp : this.projects){
-                temp.showDetail(myStmt);
+                temp.showDetail();
                 System.out.println("\n");
             }
         }
+        if(projects.isEmpty()){
+            System.out.println("There is no projects now");
+        }
     }
 
-    public double calculateTotalCost(Statement myStmt){
+    public void printShift(){
+        System.out.println("Shift: " + startTime + " - " + endTime);
+    }
+
+    public double calculateTotalCost(){
         double totalCost = 0.00;
         if(!projects.isEmpty()){
             for(Projects temp : this.projects){
-                totalCost += temp.calculateCost(myStmt);
+                totalCost += temp.calculateCost();
             }
-            System.out.println("Total cost of all the projects: " + totalCost);
-        }
-        else{
-            System.out.println("Total cost of all the projects: " + totalCost);
         }
         return totalCost;
+    }
+
+    public double getProjectCost(int pChoice){
+        double cost = 0;
+        if(!projects.isEmpty()){
+            cost = projects.get(pChoice - 1).calculateCost();
+        }
+        return cost;
     }
 }

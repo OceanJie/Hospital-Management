@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.hospital_obj.Staff;
 import main.java.staff.Employee;
 
 import java.sql.Statement;
@@ -11,7 +12,7 @@ import static java.lang.Integer.parseInt;
 
 public class Projects {
     private String description;
-    private ArrayList<String> names;
+    private ArrayList<Staff> names;
     private String startTime;
     private String endTime;
     private static HospitalController conn = new HospitalController();
@@ -24,18 +25,48 @@ public class Projects {
         names = new ArrayList<>();
     }
 
-    public void addStaff (String name){
-        this.names.add(name);
+    public boolean addStaff (String name , String job, double salary){
+        if(!names.isEmpty()) {
+            for (Staff temp : names) {
+                if (temp.getName().equals(name)) {
+                    System.out.println("The person is already in the project");
+                    return false;
+                } else{
+                    names.add(new Staff(job, name, salary));
+                    System.out.println("the person has been successfully added");
+                    return true;
+                }
+            }
+        } else{
+            names.add(new Staff(job, name, salary));
+            System.out.println("the person has been successfully added");
+            return true;
+        }
+        return false;
     }
 
-    public void removeStaff (int index){
-        this.names.remove(index);
+    public void removeStaff (String name){
+        int count = 0;
+        for(Staff staff: names){
+            if(staff.getName().equals(name)){
+                names.remove(count);
+            }
+            count ++;
+        }
     }
 
     public void printNames(){
-        for( String name : this.names){
-            System.out.println(name);
+        for( Staff name : this.names){
+            name.printOut();
         }
+    }
+
+    public boolean findStaff(String name){
+        for (Staff temp: names){
+            if(temp.getName().equals(name))
+                return true;
+        }
+        return false;
     }
 
     public String getDescription(){
@@ -57,6 +88,7 @@ public class Projects {
     public void changeEnd(String time){
         endTime = time;
     }
+
     private double getDuration(){
         double duration = 0.00;
         int startHour = parseInt(""+startTime.charAt(0) + startTime.charAt(1));
@@ -86,35 +118,27 @@ public class Projects {
         return duration;
     }
 
-    public double calculateCost(Statement myStmt){
+    public double calculateCost(){
         double hourly = 0;
         double cost = 0;
         if(!names.isEmpty()){
-            for (String name : this.names) {
-                for (int i = 0; i < tablenameOption.length; i++) {
-                    if (conn.isStringEntityExist(myStmt, tablenameOption[i], "name", name)) {
-                        hourly = Double.parseDouble(conn.getStringEntity(myStmt, tablenameOption[i], "salary", "name", name));
-                        hourly /= 160;
-                        cost += hourly * getDuration();
+            for (Staff name : this.names) {
+                hourly = name.getSalary() / 160;
+                cost += hourly * getDuration();
                     }
-                }
-            }
         }
         return cost;
     }
 
-    public void showDetail(Statement myStmt){
-        System.out.println(description);
-        if(!names.isEmpty()) {
-            for (String name : this.names) {
-                for (int i = 0; i < tablenameOption.length; i++) {
-                    if (conn.isStringEntityExist(myStmt, tablenameOption[i], "name", name)) {
-                        System.out.println(name + " position: " + tablenameOption[i]);
-                    }
-                }
+    public void showDetail(){
+        System.out.println(description + " Time: " + startTime + " - " + endTime);
+        if(names.isEmpty()) {
+            System.out.println("There is no one in this project");
+        }
+        else {
+            for (Staff name : this.names) {
+                name.printOutDetails();
             }
         }
-        else
-            System.out.println("There is no one in this project");
     }
 }
