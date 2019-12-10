@@ -1,6 +1,6 @@
-package main.java.command;
+package main.java.command.hrCmd;
 
-import main.java.HrFunction;
+import main.java.command.iCommand;
 
 //create new account if the user name not exist
 public class NewAccountCmd implements iCommand {

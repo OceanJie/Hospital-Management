@@ -1,4 +1,6 @@
-package main.java;
+package main.java.command.hrCmd;
+import main.java.HospitalController;
+
 import java.sql.*;
 import java.util.Scanner;
 
@@ -22,6 +24,19 @@ public class HrFunction {
                                         "-1. Back to home \n";
 
     public static void main(String[] args) {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         viewAllEmployeeExe();
     }
     public static void createAccExe(){
@@ -98,36 +113,114 @@ public class HrFunction {
         }
 
     }
-    /**
-     * Login UI
-     * @param myStmt
-     * @param table to check with (For example, hr for human resources, doctors for doctor, etc...)
-     * */
-    public static boolean loginUI(Statement myStmt,String table){
-        while(true) {
+
+    public static void loginAs(){
+
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
             System.out.println("Enter User Name");
             String userName = scan.next();
             System.out.println("Enter password");
             String pass = scan.next();
+            String tableName = checkLoginTable(myStmt,userName,pass);
 
-            if (conn.checkLogin(myStmt, table, userName, pass) == true) {
-                return true;
+            
 
-            }
-
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
-    public static void removeExistingEmployee(){
+    /**
+     * Login UI
+     * @param myStmt
+     *
+     * */
+    public static String checkLoginTable(Statement myStmt, String userName, String pass){
+        String tableName = "Username not exist in the table \n" ;
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+            
+            
+            for (int i=0;i<tablenameOption.length;i++){
+                String table = tablenameOption[i];
+                if (conn.checkLogin(myStmt, table, userName, pass) == true) {
+                    tableName = table;
+                    break;
+                }
+            }
 
-        System.out.println("Select job position of the employee to delete from \n"+
-                JOBOPTION);
-        int deleteJobOption = scan.nextInt();
-        String tableName = tablenameOption[deleteJobOption].toString();
-        conn.getAllFromTable(myStmt, tableName);
-        System.out.println("Insert the employee id to remove ");
-        int deleteEmployeeId= scan.nextInt();
-        conn.removeEmployeeAccount(myStmt,tableName,deleteEmployeeId);
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        return tableName;
+    }
+
+    public static void editEmployeePaycheck(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+            while(true){
+                System.out.println("Select the job position to see all the employee and it's pay \n" + JOBOPTION);
+                int viewJobOption = scan.nextInt();
+                if(viewJobOption==-1){
+                    break;
+                }
+                String viewTableName = tablenameOption[viewJobOption].toString();
+                conn.getAllFromTable(myStmt, viewTableName);
+                System.out.println("Select the employee to edit the pay\n");
+                int employeeId = scan.nextInt();
+                System.out.println("Please insert the new salary of the employee\n");
+                int newValue = scan.nextInt();
+                conn.updateColFromTable(myStmt,viewTableName,"salary",employeeId,Integer.toString(newValue));
+        }
+
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeExistingEmployee(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+            System.out.println("Select job position of the employee to delete from \n"+
+                    JOBOPTION);
+            int deleteJobOption = scan.nextInt();
+            String tableName = tablenameOption[deleteJobOption].toString();
+            conn.getAllFromTable(myStmt, tableName);
+            System.out.println("Insert the employee id to remove ");
+            int deleteEmployeeId= scan.nextInt();
+            conn.removeEmployeeAccount(myStmt,tableName,deleteEmployeeId);
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
     public static void viewAllEmployeeExe(){
@@ -180,7 +273,7 @@ public class HrFunction {
     }
     //old stuff
     public static void hrMenu(Statement myStmt) throws InterruptedException {
-        loginUI(myStmt,"hr");
+        //loginUI(myStmt,"hr");
         int hrOption = 0;
         int employeeId = 0;
         do{
@@ -209,20 +302,7 @@ public class HrFunction {
                     break;
 
                 case 5://edit employee paycheck
-                    while(true){
-                        System.out.println("Select the job position to see all the employee and it's pay \n" + JOBOPTION);
-                        int viewJobOption = scan.nextInt();
-                        if(viewJobOption==-1){
-                            break;
-                        }
-                        String viewTableName = tablenameOption[viewJobOption].toString();
-                        conn.getAllFromTable(myStmt, viewTableName);
-                        System.out.println("Select the employee to edit the pay\n");
-                        employeeId = scan.nextInt();
-                        System.out.println("Please insert the new salary of the employee\n");
-                        int newValue = scan.nextInt();
-                       conn.updateColFromTable(myStmt,viewTableName,"salary",employeeId,Integer.toString(newValue));
-                    }
+
 
 
                     break;

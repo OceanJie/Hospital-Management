@@ -1,6 +1,6 @@
-package main.java.command;
+package main.java.command.hrCmd;
 
-import main.java.HrFunction;
+import main.java.command.iCommand;
 
 public class ViewAllEmployeeCmd implements iCommand {
     HrFunction hrCmd = new HrFunction();

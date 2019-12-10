@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.command.hrCmd.HrFunction;
 import main.java.staff.Doctor;
 import main.java.staff.HumanResources;
 import main.java.staff.Nurse;

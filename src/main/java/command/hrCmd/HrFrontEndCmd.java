@@ -1,11 +1,11 @@
-package main.java.command;
+package main.java.command.hrCmd;
 
 import main.java.command.iCommand;
-import main.java.command.iFontEnd;
+import main.java.command.iFrontEnd;
 
 import java.util.ArrayList;
 
-public class HrFrontEndCmd implements iFontEnd {
+public class HrFrontEndCmd implements iFrontEnd {
     ArrayList<iCommand> cmdList;
 
     public HrFrontEndCmd(ArrayList<iCommand> cmdList){

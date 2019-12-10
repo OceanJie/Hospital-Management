@@ -447,7 +447,7 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
    * return all appointment of a doctor
    *
    * @param myStmt
-   * @param dName
+   *
    */
   public static void getDoctorAppointment(Statement myStmt, String dName) {
 
@@ -455,7 +455,7 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
       System.out.printf("Doctor name: %s does not have appointment", dName);
       return;
     }
-    if (isStringEntityExist(myStmt, "doctors", "doctorName", dName)) {
+    if (!isStringEntityExist(myStmt, "doctors", "name", dName)) {
       System.out.printf("Doctor Name: %s does not exist. ", dName);
       return;
     }
@@ -465,7 +465,7 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
       ResultSet rs = myStmt.executeQuery(sql); //Return the query based on the sql that is parsed
 
 
-      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Date", "Time",  "Prescription");
+      System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %n", "Appointment id", "Patient Name", "Doctor Name", "Date", "Time",  "Prescription");
       /* while loop that prints everything from mydb.patients*/
       while (rs.next()) {
         /*"Appointment id", "Patient Name", "Doctor Name", "Month", "Day", "Hour","Minutes","Prescription" are the name of the column of the appointment table"*/
@@ -743,5 +743,7 @@ public static void createNewAcc(Statement myStmt, String table, String username,
       e.printStackTrace();
     }
 }
+
+
 }
 

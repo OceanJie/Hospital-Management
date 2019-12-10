@@ -1,20 +1,9 @@
 package main.java.command;
 
-import main.java.HrFunction;
-import main.java.command.iCommand;
-
-import java.sql.Statement;
+import main.java.command.hrCmd.HrFunction;
 
 public class LoginCmd implements iCommand {
-
-    Statement myStmt;
-    String table;
-
-    LoginCmd(Statement myStmt, String table) {
-        this.myStmt = myStmt;
-        this.table = table;
-    }
-
+    HrFunction hrCmd = new HrFunction();
     @Override
     public String getDesc() {
         return "Login";
@@ -22,8 +11,8 @@ public class LoginCmd implements iCommand {
 
     @Override
     public void execute() {
+    hrCmd.loginAs();
 
-        HrFunction.loginUI(myStmt, table);
 
     }
 }
