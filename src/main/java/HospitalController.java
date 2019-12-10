@@ -27,8 +27,8 @@ public class HospitalController {
       /*just use this one for the myStmt*/
       Statement myStmt = myConn.createStatement();
       Appointment app = new Appointment(1,"Ken Lee","Nick Ong",19971010,1800,"yeet");
-      System.out.println(checkLogin(myStmt,"patients","Sheng Jie","1234"));
-
+      //System.out.println(checkLogin(myStmt,"patients","Sheng Jie","1234"));
+      //getAllFromTable(myStmt,"doctors");
     } catch (Exception e) {
       e.printStackTrace();
     }

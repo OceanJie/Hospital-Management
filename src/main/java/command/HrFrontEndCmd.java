@@ -25,7 +25,7 @@ public class HrFrontEndCmd implements iFontEnd {
     @Override
     public void displayCommand() {
     for (int i=0;i<cmdList.size();i++){
-        System.out.printf("Type %d to %s",i+1,cmdList.get(i).getDesc());
+        System.out.printf("Type %d to %s \n",i+1,cmdList.get(i).getDesc());
 
     }
     }

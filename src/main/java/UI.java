@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  * Main UI for Hospital Management System
- * 
+ *
  * @author Nicholas Ong
  * @author Sheng-Jie 
  */
@@ -54,7 +54,7 @@ public class UI {
 				System.out.println("Your option: ");
 
 				option = scan.nextInt();
-				
+
 
 
 				if (option < -1||option==0 || option > 15) {
@@ -89,15 +89,15 @@ public class UI {
 					case 1:
 						int adminOption = 0;
 
-							System.out.println("Enter Admin User Name");
-							String userName = scan.next();
-							System.out.println("Enter Admin password");
-							String adminPass = scan.next();
-							if(conn.checkLogin(myStmt,"admin" ,userName, adminPass) == false){
-								System.out.println(" or Wrong password ");
-								return;
-							}
-							do{
+						System.out.println("Enter Admin User Name");
+						String userName = scan.next();
+						System.out.println("Enter Admin password");
+						String adminPass = scan.next();
+						if(conn.checkLogin(myStmt,"admin" ,userName, adminPass) == false){
+							System.out.println(" or Wrong password ");
+							return;
+						}
+						do{
 							System.out.println("1. add new doctor");
 							System.out.println("-1. return to main menu");
 							adminOption=scan.nextInt();
@@ -438,5 +438,3 @@ public class UI {
 
 	}
 }
-
-

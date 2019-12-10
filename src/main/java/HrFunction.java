@@ -21,7 +21,9 @@ public class HrFunction {
                                         "6. Pharmacist \n" +
                                         "-1. Back to home \n";
 
-
+    public static void main(String[] args) {
+        viewAllEmployeeExe();
+    }
     public static void createAccExe(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -116,42 +118,67 @@ public class HrFunction {
         }
 
     }
+    public static void removeExistingEmployee(){
+
+        System.out.println("Select job position of the employee to delete from \n"+
+                JOBOPTION);
+        int deleteJobOption = scan.nextInt();
+        String tableName = tablenameOption[deleteJobOption].toString();
+        conn.getAllFromTable(myStmt, tableName);
+        System.out.println("Insert the employee id to remove ");
+        int deleteEmployeeId= scan.nextInt();
+        conn.removeEmployeeAccount(myStmt,tableName,deleteEmployeeId);
+
+    }
     public static void viewAllEmployeeExe(){
         int viewJobOption;
         int employeeId;
-        while(true){
-            System.out.println("Select the job position to see all the employee \n"+
-                    JOBOPTION);
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+            while(true){
+                System.out.println("Select the job position to see all the employee \n"+
+                        JOBOPTION);
 
-            viewJobOption = scan.nextInt();
-            if(viewJobOption==-1){
-                break;
+                viewJobOption = scan.nextInt();
+                if(viewJobOption==-1){
+                    break;
+                }
+                String viewTableName = tablenameOption[viewJobOption].toString();
+                conn.getAllFromTable(myStmt, viewTableName);
+                System.out.println("Select employee to view profile");
+                employeeId = scan.nextInt();
+
+                //get pic path
+                String picturePath = conn.getStringEntity(myStmt,viewTableName,"picture","id",Integer.toString(employeeId));
+                //get name
+                String employeeName = conn.getStringEntity(myStmt,viewTableName,"name","id",Integer.toString(employeeId));
+                //get job title
+
+                {
+                    // 显示应用 GUI
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            PatientImageFrame(picturePath, employeeName,viewTableName);
+
+                        }
+                    });
+
+                }
+
+
             }
-            String viewTableName = tablenameOption[viewJobOption].toString();
-            conn.getAllFromTable(myStmt, viewTableName);
-            System.out.println("Select employee to view profile");
-            employeeId = scan.nextInt();
-
-            //get pic path
-            String picturePath = conn.getStringEntity(myStmt,viewTableName,"picture","id",Integer.toString(employeeId));
-            //get name
-            String employeeName = conn.getStringEntity(myStmt,viewTableName,"name","id",Integer.toString(employeeId));
-            //get job title
-
-            {
-                // 显示应用 GUI
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        PatientImageFrame(picturePath, employeeName,viewTableName);
-
-                    }
-                });
-
-            }
-
-
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+
     }
+    //old stuff
     public static void hrMenu(Statement myStmt) throws InterruptedException {
         loginUI(myStmt,"hr");
         int hrOption = 0;
@@ -171,14 +198,7 @@ public class HrFunction {
             switch (hrOption){
 
                 case 2:
-                    System.out.println("Select job position of the employee to delete from \n"+
-                          JOBOPTION);
-                    int deleteJobOption = scan.nextInt();
-                    String tableName = tablenameOption[deleteJobOption].toString();
-                    conn.getAllFromTable(myStmt, tableName);
-                    System.out.println("Insert the employee id to remove ");
-                    int deleteEmployeeId= scan.nextInt();
-                    conn.removeEmployeeAccount(myStmt,tableName,deleteEmployeeId);
+
                     break;
                 case 3:
 

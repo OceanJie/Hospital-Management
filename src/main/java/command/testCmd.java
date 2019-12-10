@@ -1,23 +1,26 @@
 package main.java.command;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class testCmd{
     public static void main(String[] args) {
-        ArrayList<iCommand>cmdList = new ArrayList<iCommand>();
-        HrFrontEndCmd hrCmd = new HrFrontEndCmd(cmdList);
-        NewAccountCmd createNewAcc = new NewAccountCmd();
+        //After login as Cafeteria Attendant
 
-//        iCommand createNewAcc = new NewAccountCmd();
-        String checkDescription = createNewAcc.getDesc();
+        Scanner scan = new Scanner(System.in);
 
-        hrCmd.addCommand(createNewAcc);
-        String checkArrDesc = cmdList.get(0).getDesc();
-        hrCmd.displayCommand();
+        ArrayList<iCommand>cmdList = new ArrayList<iCommand>();//arrayList to store all the command
 
+        CafeteriaFrontEnd cafe = new CafeteriaFrontEnd(cmdList);
+        TakeOrderCmd takeOrderCmd = new TakeOrderCmd();
 
-//        createNewAcc.execute();
+        cafe.addCommand(takeOrderCmd);
 
+        cafe.displayCommand();
+
+        int cmdNum = scan.nextInt();
+
+        cmdList.get(cmdNum-1).execute();
     }
 
 

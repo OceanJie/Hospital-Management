@@ -2,23 +2,15 @@ package main.java.command;
 
 import main.java.HrFunction;
 
-//create new account if the user name not exist
-public class NewAccountCmd implements iCommand {
-
+public class RemoveEmployeeCmd implements iCommand {
     HrFunction hrCmd = new HrFunction();
-
-
-
     @Override
     public String getDesc() {
-        return "Create new Account";
+        return "Remove Employee";
     }
 
     @Override
     public void execute() {
-    hrCmd.createAccExe();
+        hrCmd.removeExistingEmployee();
     }
-
-
 }
-
