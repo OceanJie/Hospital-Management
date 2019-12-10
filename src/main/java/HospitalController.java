@@ -26,7 +26,7 @@ public class HospitalController {
       java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
       /*just use this one for the myStmt*/
       Statement myStmt = myConn.createStatement();
-      Appointment app = new Appointment(1,"Ken Lee","Nick Ong",19971010,1800,"yeet");
+      insertStringToTable(myStmt,"nurses","id","name","1","Lili Lala");
       //System.out.println(checkLogin(myStmt,"patients","Sheng Jie","1234"));
       //getAllFromTable(myStmt,"doctors");
     } catch (Exception e) {
@@ -275,13 +275,13 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
   public static void getPatient(Statement myStmt, int patientId) {
     try {
       /*this is the command to doctors table*/
-      String sql = "select * from mydb.patients where patientId = " + patientId;
+      String sql = "select * from mydb.patients where id = " + patientId;
       ResultSet rs = myStmt.executeQuery(sql); //Return the query based on the sql that is parsed
-      System.out.printf("%-20s %-20s %n", "Patient id", "Patient Name");
+      System.out.printf("%-20s %-20s %-20s %-20s %-20s  %n", "Patient id", "Patient Name","BloodType","payment","Insurance");
       /* while loop that prints everything from mydb.doctors*/
       while (rs.next()) {
         /*"PatientName" is the name of the column of the doctors table"*/
-        System.out.printf("%-20s %-20s %n", rs.getString("patientId"), rs.getString("patientName"));
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s  %n", rs.getString("id"), rs.getString("name"),rs.getString("bloodType"),rs.getString("payment"),rs.getString("insurance"));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -292,20 +292,23 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
    * Create a new patient and add it into the database
    *
    * @param myStmt
-   * @param p
+   *
    */
-  public static void createPatient(Statement myStmt, Patient p) {
+  public static void createPatient(Statement myStmt, String pName,String bloodType,String payment,int insuranceAmount) {
     try {
+      if(isStringEntityExist(myStmt,"patients","name",pName)){
+        System.out.println("Patient Name already exist!");
+        return;
+      }
       /* the format will be: ("INSERT INTO mydb.[table name] ([first column], [second Column]) VALUES ('[value for first column]', '[value for second column]')");*/
-      myStmt.executeUpdate("INSERT INTO mydb.patients (patientId, patientName) VALUES ("
-              + "'" + p.getID() + "'" + "," + "'" + p.getName() + "'" + ")");
+      myStmt.executeUpdate("INSERT INTO mydb.patients (name,bloodType,insurance) VALUES ("
+                             + "'" + pName + "'" +"'" + bloodType +"'" + insuranceAmount+ "'" + "'" + ")");
 
-      System.out.printf("Patient Id: %s \t Patient Name: %s \n have successfully added into database", p.getID(), p.getName());
+      System.out.printf("Patient Name: %s \n have successfully added into database", pName);
 
 
     } catch (SQLIntegrityConstraintViolationException e) {
-      System.out.printf("FAILED TO CREATE NEW PATIENT!!! Patient ID %s already exist \n", p.getID());
-
+      e.printStackTrace();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -349,6 +352,12 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
   public static void createAppointment(Statement myStmt, Appointment app) {
     try {
       /* the format will be: ("INSERT INTO mydb.[table name] ([first column], [second Column]) VALUES ('[value for first column]', '[value for second column]')");*/
+      if (isStringEntityExist(myStmt, "patients", "name", app.getpatient_name())) {
+        System.out.printf("Patient Name: %s does not exist. Please create patient before making appointment", app.getpatient_name());
+      }
+      if (isStringEntityExist(myStmt, "doctors", "name", app.getpatient_name())) {
+        System.out.printf("Patient Name: %s does not exist. Please create patient before making appointment", app.getdoctor_name());
+      }
       String exeUpdate = "INSERT INTO mydb.appointments (appointmentId, patientName, doctorName, date,time, prescription) VALUES (";
       myStmt.executeUpdate(exeUpdate + "'" + app.getID() + "'" + "," + "'" + app.getpatient_name() + "'" + "," + "'" + app.getdoctor_name() + "'" + "," + "'" + app.getDate() + "'" +  ","
               + "'" + app.getTime()*100 + "'" + ","  + "'" + app.getprescription() + "'" +
@@ -357,9 +366,7 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
       System.out.printf("Appointment Id: %s \t Patient name: %s \t Doctor Name: %s \t date(yyyymmdd): %d \t time(hhmmss): %d \t prescription: %s" +
               "\nhave successfully added into database", app.getID(), app.getpatient_name(), app.getdoctor_name(), app.getDate(), app.getTime(), app.getprescription());
 
-      if (isStringEntityExist(myStmt, "patients", "patientName", app.getpatient_name())) {
-        System.out.printf("Patient Name: %s does not exist. Please create patient before making appointment", app.getpatient_name());
-      }
+
 
     } catch (SQLIntegrityConstraintViolationException e) {
       System.out.printf("FAILED TO CREATE NEW Appointment!!! Appointment ID %s already exist \n", app.getID());
@@ -694,6 +701,24 @@ public static boolean checkLogin(Statement myStmt, String table,String userName,
   public static void removeEmployeeAccount(Statement myStmt, String table, int employeeId){
     String exeDelete = "DELETE FROM "+ table +" WHERE id='"+employeeId+"'";
     System.out.printf("Employee id %d from table %s has been removed \n",employeeId,table);
+  }
+  public static void removeEntityFromTable(Statement myStmt,String table,int id){
+    String exeDelete = "DELETE FROM "+ table +" WHERE id='"+id+"'";
+    System.out.printf("id %d from table %s has been removed \n",id,table);
+  }
+  public static void insertStringToTable(Statement myStmt, String table, String insertIntoCol, String givenCol, String inputValue, String givenColValue)  {
+    try{
+      String sql = "UPDATE mydb."+table + " SET "+ insertIntoCol +"= '"+inputValue+"' WHERE "+givenCol+" = '"+givenColValue+"'";
+      myStmt.executeUpdate(sql); //Return the query based on the sql that is parsed
+
+    }
+    catch (SQLIntegrityConstraintViolationException e) {
+     e.printStackTrace();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
   }
   public static void createSurgeryAppointment(Statement myStmt, SurgeryRoomAppointment app) {
     try {

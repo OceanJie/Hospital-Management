@@ -43,6 +43,42 @@ public class DoctorFunction {
         }
 
     }
+    public static void removeExistingApp(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+            System.out.println("Enter Appointment Id");
+            int appId = scan.nextInt();
+
+            conn.removeEntityFromTable(myStmt,"appointments",appId);
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void viewPatientProfile(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+            System.out.println("Enter Patient ID");
+            int pId = scan.nextInt();
+
+            conn.getPatient(myStmt,pId);
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void viewDoctorAppointment(){
         try{

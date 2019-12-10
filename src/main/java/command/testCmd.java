@@ -3,6 +3,7 @@ package main.java.command;
 import main.java.command.DoctorCmd.DoctorFrontEnd;
 import main.java.command.DoctorCmd.UpdatePrescriptionCmd;
 import main.java.command.DoctorCmd.ViewAppointmentCmd;
+import main.java.command.DoctorCmd.ViewPatientProfileCmd;
 import main.java.command.hrCmd.HrFrontEndCmd;
 import main.java.command.hrCmd.NewAccountCmd;
 import main.java.command.hrCmd.RemoveEmployeeCmd;
@@ -43,8 +44,11 @@ public class testCmd{
         DoctorFrontEnd doctorFrontEnd = new DoctorFrontEnd(doctorCmdList);
         ViewAppointmentCmd viewAppointment = new ViewAppointmentCmd();
         UpdatePrescriptionCmd updatePrescriptionCmd = new UpdatePrescriptionCmd();
+        ViewPatientProfileCmd viewPatientProfileCmd = new ViewPatientProfileCmd();
+
         doctorFrontEnd.addCommand(viewAppointment);
         doctorFrontEnd.addCommand(updatePrescriptionCmd);
+        doctorFrontEnd.addCommand(viewPatientProfileCmd);
         doctorFrontEnd.displayCommand();
 
         int cmdNum = scan.nextInt();
