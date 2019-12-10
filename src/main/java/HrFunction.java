@@ -21,12 +21,25 @@ public class HrFunction {
                                         "6. Pharmacist \n" +
                                         "-1. Back to home \n";
 
+
+    public static void createAccExe(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection myConn = DriverManager.getConnection(url, user, password);
+            /*just use this one for the myStmt*/
+            myStmt = myConn.createStatement();
+            createNewAccount(myStmt);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * get user's username, password, name and add it into database
      *
      * @param myStmt
      */
-
     public static void createNewAccount(Statement myStmt){// return name;
         String username;
         String password;
@@ -103,6 +116,42 @@ public class HrFunction {
         }
 
     }
+    public static void viewAllEmployeeExe(){
+        int viewJobOption;
+        int employeeId;
+        while(true){
+            System.out.println("Select the job position to see all the employee \n"+
+                    JOBOPTION);
+
+            viewJobOption = scan.nextInt();
+            if(viewJobOption==-1){
+                break;
+            }
+            String viewTableName = tablenameOption[viewJobOption].toString();
+            conn.getAllFromTable(myStmt, viewTableName);
+            System.out.println("Select employee to view profile");
+            employeeId = scan.nextInt();
+
+            //get pic path
+            String picturePath = conn.getStringEntity(myStmt,viewTableName,"picture","id",Integer.toString(employeeId));
+            //get name
+            String employeeName = conn.getStringEntity(myStmt,viewTableName,"name","id",Integer.toString(employeeId));
+            //get job title
+
+            {
+                // 显示应用 GUI
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        PatientImageFrame(picturePath, employeeName,viewTableName);
+
+                    }
+                });
+
+            }
+
+
+        }
+    }
     public static void hrMenu(Statement myStmt) throws InterruptedException {
         loginUI(myStmt,"hr");
         int hrOption = 0;
@@ -132,39 +181,7 @@ public class HrFunction {
                     conn.removeEmployeeAccount(myStmt,tableName,deleteEmployeeId);
                     break;
                 case 3:
-                    int viewJobOption;
-                    while(true){
-                        System.out.println("Select the job position to see all the employee \n"+
-                               JOBOPTION);
 
-                        viewJobOption = scan.nextInt();
-                        if(viewJobOption==-1){
-                            break;
-                        }
-                        String viewTableName = tablenameOption[viewJobOption].toString();
-                        conn.getAllFromTable(myStmt, viewTableName);
-                        System.out.println("Select employee to view profile");
-                        employeeId = scan.nextInt();
-
-                        //get pic path
-                        String picturePath = conn.getStringEntity(myStmt,viewTableName,"picture","id",Integer.toString(employeeId));
-                        //get name
-                        String employeeName = conn.getStringEntity(myStmt,viewTableName,"name","id",Integer.toString(employeeId));
-                        //get job title
-
-                        {
-                            // 显示应用 GUI
-                            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                                public void run() {
-                                    PatientImageFrame(picturePath, employeeName,viewTableName);
-
-                                }
-                            });
-
-                        }
-
-                        Thread.sleep(500);
-                    }
 
                     break;
 
@@ -174,7 +191,7 @@ public class HrFunction {
                 case 5://edit employee paycheck
                     while(true){
                         System.out.println("Select the job position to see all the employee and it's pay \n" + JOBOPTION);
-                        viewJobOption = scan.nextInt();
+                        int viewJobOption = scan.nextInt();
                         if(viewJobOption==-1){
                             break;
                         }

@@ -1,17 +1,22 @@
 package main.java.command;
 
-import main.java.HrFunction;
+import java.util.ArrayList;
 
 public class testCmd{
     public static void main(String[] args) {
-        HrFrontEndCmd hrCmd = new HrFrontEndCmd();
+        ArrayList<iCommand>cmdList = new ArrayList<iCommand>();
+        HrFrontEndCmd hrCmd = new HrFrontEndCmd(cmdList);
         NewAccountCmd createNewAcc = new NewAccountCmd();
 
 //        iCommand createNewAcc = new NewAccountCmd();
-        hrCmd.addCommand(createNewAcc);
-//        hrCmd.displayCommand();
+        String checkDescription = createNewAcc.getDesc();
 
-        //createNewAcc.execute();
+        hrCmd.addCommand(createNewAcc);
+        String checkArrDesc = cmdList.get(0).getDesc();
+        hrCmd.displayCommand();
+
+
+//        createNewAcc.execute();
 
     }
 

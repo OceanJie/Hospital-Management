@@ -2,23 +2,16 @@ package main.java.command;
 
 import main.java.HrFunction;
 
-
-public class NewAccountCmd implements iCommand {
-
+public class ViewAllEmployeeCmd implements iCommand {
     HrFunction hrCmd = new HrFunction();
-
-
 
     @Override
     public String getDesc() {
-        return "Create new Account";
+        return "View All Employee";
     }
 
     @Override
     public void execute() {
-    hrCmd.createAccExe();
+        hrCmd.viewAllEmployeeExe();
     }
-
-
 }
-

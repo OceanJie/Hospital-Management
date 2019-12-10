@@ -1,10 +1,16 @@
 package main.java.command;
 
+import main.java.command.iCommand;
+import main.java.command.iFontEnd;
+
 import java.util.ArrayList;
 
 public class HrFrontEndCmd implements iFontEnd {
     ArrayList<iCommand> cmdList;
 
+    public HrFrontEndCmd(ArrayList<iCommand> cmdList){
+        this.cmdList = cmdList;
+    }
 
     @Override
     public void addCommand(iCommand cmd) {
@@ -18,7 +24,7 @@ public class HrFrontEndCmd implements iFontEnd {
 
     @Override
     public void displayCommand() {
-    for (int i=0;i<cmdList.size()-1;i++){
+    for (int i=0;i<cmdList.size();i++){
         System.out.printf("Type %d to %s",i+1,cmdList.get(i).getDesc());
 
     }

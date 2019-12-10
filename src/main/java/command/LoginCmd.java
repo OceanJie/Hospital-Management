@@ -1,6 +1,7 @@
 package main.java.command;
 
-import main.java.EmployeeUI;
+import main.java.HrFunction;
+import main.java.command.iCommand;
 
 import java.sql.Statement;
 
@@ -22,7 +23,7 @@ public class LoginCmd implements iCommand {
     @Override
     public void execute() {
 
-        EmployeeUI.loginUI(myStmt, table);
+        HrFunction.loginUI(myStmt, table);
 
     }
 }
